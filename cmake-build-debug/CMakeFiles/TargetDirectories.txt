@@ -1,0 +1,3 @@
+D:/studia/semestr III/projekt c++/App/cmake-build-debug/CMakeFiles/App.dir
+D:/studia/semestr III/projekt c++/App/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/studia/semestr III/projekt c++/App/cmake-build-debug/CMakeFiles/rebuild_cache.dir
