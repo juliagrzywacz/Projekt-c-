@@ -47,11 +47,27 @@ cmake_ninja_workdir = D$:/studia/semestr$ III/projekt$ c++/App/cmake-build-debug
 #############################################
 # Order-only phony target for App
 
-build cmake_object_order_depends_target_App: phony || CMakeFiles/App.dir
+build cmake_object_order_depends_target_App: phony || moc_WeekView.cpp
 
 build CMakeFiles/App.dir/main.cpp.obj: CXX_COMPILER__App_unscanned_Debug D$:/studia/semestr$ III/projekt$ c++/App/main.cpp || cmake_object_order_depends_target_App
   DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
   DEP_FILE = CMakeFiles\App.dir\main.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  INCLUDES = -isystem C:/Qt/6.7.1/mingw_64/include/QtWidgets -isystem C:/Qt/6.7.1/mingw_64/include -isystem C:/Qt/6.7.1/mingw_64/include/QtCore -isystem C:/Qt/6.7.1/mingw_64/mkspecs/win32-g++ -isystem C:/Qt/6.7.1/mingw_64/include/QtGui
+  OBJECT_DIR = CMakeFiles\App.dir
+  OBJECT_FILE_DIR = CMakeFiles\App.dir
+
+build CMakeFiles/App.dir/WeekView.cpp.obj: CXX_COMPILER__App_unscanned_Debug D$:/studia/semestr$ III/projekt$ c++/App/WeekView.cpp || cmake_object_order_depends_target_App
+  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
+  DEP_FILE = CMakeFiles\App.dir\WeekView.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  INCLUDES = -isystem C:/Qt/6.7.1/mingw_64/include/QtWidgets -isystem C:/Qt/6.7.1/mingw_64/include -isystem C:/Qt/6.7.1/mingw_64/include/QtCore -isystem C:/Qt/6.7.1/mingw_64/mkspecs/win32-g++ -isystem C:/Qt/6.7.1/mingw_64/include/QtGui
+  OBJECT_DIR = CMakeFiles\App.dir
+  OBJECT_FILE_DIR = CMakeFiles\App.dir
+
+build CMakeFiles/App.dir/moc_WeekView.cpp.obj: CXX_COMPILER__App_unscanned_Debug D$:/studia/semestr$ III/projekt$ c++/App/cmake-build-debug/moc_WeekView.cpp || cmake_object_order_depends_target_App
+  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
+  DEP_FILE = CMakeFiles\App.dir\moc_WeekView.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
   INCLUDES = -isystem C:/Qt/6.7.1/mingw_64/include/QtWidgets -isystem C:/Qt/6.7.1/mingw_64/include -isystem C:/Qt/6.7.1/mingw_64/include/QtCore -isystem C:/Qt/6.7.1/mingw_64/mkspecs/win32-g++ -isystem C:/Qt/6.7.1/mingw_64/include/QtGui
   OBJECT_DIR = CMakeFiles\App.dir
@@ -65,7 +81,7 @@ build CMakeFiles/App.dir/main.cpp.obj: CXX_COMPILER__App_unscanned_Debug D$:/stu
 #############################################
 # Link the executable App.exe
 
-build App.exe: CXX_EXECUTABLE_LINKER__App_Debug CMakeFiles/App.dir/main.cpp.obj | C$:/Qt/6.7.1/mingw_64/lib/libQt6Widgets.a C$:/Qt/6.7.1/mingw_64/lib/libQt6Gui.a C$:/Qt/6.7.1/mingw_64/lib/libQt6Core.a
+build App.exe: CXX_EXECUTABLE_LINKER__App_Debug CMakeFiles/App.dir/main.cpp.obj CMakeFiles/App.dir/WeekView.cpp.obj CMakeFiles/App.dir/moc_WeekView.cpp.obj | C$:/Qt/6.7.1/mingw_64/lib/libQt6Widgets.a C$:/Qt/6.7.1/mingw_64/lib/libQt6Gui.a C$:/Qt/6.7.1/mingw_64/lib/libQt6Core.a
   FLAGS = -g
   LINK_LIBRARIES = C:/Qt/6.7.1/mingw_64/lib/libQt6Widgets.a  C:/Qt/6.7.1/mingw_64/lib/libQt6Gui.a  C:/Qt/6.7.1/mingw_64/lib/libQt6Core.a  -lmpr  -luserenv  -ld3d11  -ldxgi  -ldxguid  -ld3d12  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\App.dir
@@ -97,6 +113,15 @@ build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
   restat = 1
 
 build rebuild_cache: phony CMakeFiles/rebuild_cache.util
+
+
+#############################################
+# Custom command for moc_WeekView.cpp
+
+build moc_WeekView.cpp | ${cmake_ninja_workdir}moc_WeekView.cpp: CUSTOM_COMMAND D$:/studia/semestr$ III/projekt$ c++/App/WeekView.h
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D "D:\studia\semestr III\projekt c++\App\cmake-build-debug" && C:\Qt\6.7.1\mingw_64\.\bin\moc.exe "@D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_WeekView.cpp_parameters""
+  DESC = Generating moc_WeekView.cpp
+  restat = 1
 
 # =============================================================================
 # Target aliases.

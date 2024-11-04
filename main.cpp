@@ -1,16 +1,18 @@
 #include <QApplication>
-#include <QWidget>
-#include <QDebug>
+#include <QMainWindow>
+#include "WeekView.h"
 
 int main(int argc, char *argv[]) {
-    QApplication app(argc, argv);
+    QApplication a(argc, argv);
+    QMainWindow mainWindow;
 
-    QWidget window;
-    window.resize(250, 150);
-    window.setWindowTitle("My Qt App");
-    window.show();
+    // Tworzymy widok tygodniowy i ustawiamy go jako centralny widget w oknie głównym
+    WeekView *weekView = new WeekView;
+    mainWindow.setCentralWidget(weekView);
 
-    qDebug() << "Window should be displayed";
+    mainWindow.setWindowTitle("Kalendarz Tygodniowy");
+    mainWindow.resize(800, 600);
+    mainWindow.show();
 
-    return app.exec();
+    return a.exec();
 }

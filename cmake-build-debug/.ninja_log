@@ -1,4 +1,12 @@
 # ninja log v5
-7	588	7505384260144694	build.ninja	8321531de67645a
-22	2231	7505372447922419	CMakeFiles/App.dir/main.cpp.obj	fd28ba34c3ac0fcb
-2232	2428	7505372449825324	App.exe	144fc41dd7e0b62
+186	314	7523820919851728	CMakeFiles/App.dir/moc_DatabaseManager.cpp.obj	e5386868e24c5cec
+12	760	7524297990959198	build.ninja	8321531de67645a
+55	138	7523435063176336	D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_WeekView.cpp	1fe2df81f9237a7
+32	2906	7523823855315723	CMakeFiles/App.dir/main.cpp.obj	fd28ba34c3ac0fcb
+2962	3317	7523823859299364	App.exe	c8287fcf422edfa2
+21	34	0	clean	23841cd9e0f6f05a
+37	2962	7523823855879556	CMakeFiles/App.dir/WeekView.cpp.obj	3e66e0dd3764f594
+55	138	7523435063176336	moc_WeekView.cpp	1fe2df81f9237a7
+45	2889	7523823855144414	CMakeFiles/App.dir/moc_WeekView.cpp.obj	dda50d9e54c11f
+60	175	7523820918381935	moc_DatabaseManager.cpp	e3a870109cb332d7
+60	175	7523820918381935	D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_DatabaseManager.cpp	e3a870109cb332d7
