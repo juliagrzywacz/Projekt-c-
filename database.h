@@ -1,8 +1,10 @@
-//
-// Created by m.dankowski on 17.11.2024.
-//
+#ifndef DATABASE_H
+#define DATABASE_H
 
-#ifndef APP_DATABASE_H
-#define APP_DATABASE_H
+#include <QString>
 
-#endif //APP_DATABASE_H
+void initializeDatabase();
+
+bool addTask(const QString& name, const QString& description, const QString& dueDate);
+
+#endif // DATABASE_H
