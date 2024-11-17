@@ -30,22 +30,44 @@ WeekView::WeekView(QWidget *parent) : QWidget(parent) {
     // Layout dla dni tygodnia i tabeli
     layout = new QGridLayout();
     QStringList days = {"Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela"};
+
+    // Dodanie godzin po lewej stronie tabeli
+    QStringList hours = {"06:00 - 08:00", "08:00 - 10:00", "10:00 - 12:00", "12:00 - 14:00", "14:00 - 16:00",
+                         "16:00 - 18:00", "18:00 - 20:00", "20:00 - 22:00"};
+
+    for (int row = 0; row < hours.size(); ++row) {
+        QLabel *timeLabel = new QLabel(this);
+        timeLabel->setAlignment(Qt::AlignCenter);
+        timeLabel->setText(hours[row]);  // Ustawienie godziny dla każdego wiersza
+        layout->addWidget(timeLabel, row + 2, 0);  // Dodaj godzinę do lewej kolumny
+    }
+
+    // Dodanie dni tygodnia u góry tabeli
     for (int i = 0; i < days.size(); ++i) {
         dayLabels[i] = new QLabel(this);
         dayLabels[i]->setAlignment(Qt::AlignCenter);
-        layout->addWidget(dayLabels[i], 1, i);
+        layout->addWidget(dayLabels[i], 1, i + 1); // Ustawienie nazw dni tygodnia
     }
 
-    for (int row = 2; row <= 9; ++row) {
+    // Wypełnianie tabeli komórkami dla zadań
+    for (int row = 0; row < hours.size(); ++row) {
         for (int col = 0; col < days.size(); ++col) {
-            QLabel *cell = new QLabel(this);
-            cell->setFrameStyle(QFrame::Box | QFrame::Plain);
-            layout->addWidget(cell, row, col);
+            QPushButton *cell = new QPushButton(this);
+            cell->setText("");  // Puste komórki na początku
+            cell->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+          /*  // Po kliknięciu otwórz okno dodawania zadania
+            connect(cell, &QPushButton::clicked, this, [this, row, col]() {
+                showTaskAddWindow(row, col);
+            });*/
+
+            layout->addWidget(cell, row + 2, col + 1);
         }
     }
-    mainLayout->addLayout(layout);
 
+    mainLayout->addLayout(layout);
     setLayout(mainLayout);
+
     updateCalendar();
 }
 

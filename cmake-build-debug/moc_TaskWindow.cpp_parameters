@@ -1,0 +1,4 @@
+-DWIN32
+-o
+D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_TaskWindow.cpp
+D:/studia/semestr III/projekt c++/App/TaskWindow.h
