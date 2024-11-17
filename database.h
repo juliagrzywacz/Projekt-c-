@@ -5,6 +5,6 @@
 
 void initializeDatabase();
 
-bool addTask(const QString& name, const QString& description, const QString& dueDate);
+bool addTask(const QString& person, const QString& title, const QString& description, const QString& dueDate);
 
 #endif // DATABASE_H

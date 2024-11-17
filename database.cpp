@@ -19,7 +19,8 @@ void initializeDatabase() {
     QSqlQuery query;
     if (!query.exec("CREATE TABLE IF NOT EXISTS tasks ("
                     "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    "name TEXT NOT NULL, "
+                    "person TEXT NOT NULL, "
+                    "title TEXT NOT NULL, "
                     "description TEXT, "
                     "due_date TEXT, "
                     "completed INTEGER DEFAULT 0)"))
@@ -30,31 +31,12 @@ void initializeDatabase() {
     }
 }
 
-/*bool addTask(const QString& name, const QString& description, const QString& dueDate) {
+
+bool addTask(const QString& person, const QString &title, const QString &description, const QString &dueDate) {
     QSqlQuery query;
-
-    // Przygotowanie zapytania SQL do dodania nowego zadania
-    query.prepare("INSERT INTO tasks (name, description, due_date) VALUES (:name, :description, :due_date)");
-
-    // Ustawianie wartości w zapytaniu
-    query.bindValue(":name", name);
-    query.bindValue(":description", description);
-    query.bindValue(":due_date", dueDate);
-
-    // Wykonanie zapytania
-    if (!query.exec()) {
-        qDebug() << "Błąd przy dodawaniu zadania:" << query.lastError().text();
-        return false;
-    }
-
-    qDebug() << "Zadanie zostało dodane!";
-    return true;
-}*/
-
-bool addTask(const QString &name, const QString &description, const QString &dueDate) {
-    QSqlQuery query;
-    query.prepare("INSERT INTO tasks (name, description, due_date, completed) VALUES (:name, :description, :dueDate, 0)");
-    query.bindValue(":name", name);
+    query.prepare("INSERT INTO tasks (person, title, description, due_date, completed) VALUES (:person, :title, :description, :dueDate, 0)");
+    query.bindValue(":person", person);
+    query.bindValue(":title", title);
     query.bindValue(":description", description);
     query.bindValue(":due_date", dueDate);
 

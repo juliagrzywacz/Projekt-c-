@@ -8,6 +8,7 @@
 #include <QDate>
 #include <QCalendarWidget>
 #include <QVBoxLayout>
+#include "TaskWindow.h"
 
 class WeekView : public QWidget {
 Q_OBJECT
@@ -20,6 +21,7 @@ private slots:
     void showNextWeek();
     void openCalendar();
     void onDateSelected(const QDate &date);
+    void showTaskAddWindow(int row, int col);
 
 private:
     void updateCalendar();
@@ -29,6 +31,9 @@ private:
     QDate currentWeekStartDate;
     QPushButton *dateRangeButton;
     QCalendarWidget *calendarWidget;
+
+    TaskAddWindow *taskAddWindow;  // Okno dodawania zadań
+    void createCells();
 };
 
 #endif // WEEKVIEW_H
