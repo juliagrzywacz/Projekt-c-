@@ -37,8 +37,6 @@ TaskAddWindow::TaskAddWindow(QWidget *parent) : QWidget(parent) {
     layout->addWidget(taskTitleEdit);
     layout->addWidget(new QLabel("Opis zadania:"));
     layout->addWidget(taskDescriptionEdit);
-    //layout->addWidget(saveButton);
-    //layout->addWidget(cancelButton);
 
     // Dodanie przycisków
     QHBoxLayout *buttonLayout = new QHBoxLayout();
@@ -50,28 +48,16 @@ TaskAddWindow::TaskAddWindow(QWidget *parent) : QWidget(parent) {
 }
 
 void TaskAddWindow::saveTask() {
-    QString person = taskPersonEdit->text().trimmed();
-    QString title = taskTitleEdit->text().trimmed();
-    QString description = taskDescriptionEdit->text().trimmed();
+    QString person = taskPersonEdit->text();
+    QString title = taskTitleEdit->text();
+    QString description = taskDescriptionEdit->text();
 
     if (title.isEmpty() || person.isEmpty()) {
         QMessageBox::warning(this, "Błąd", "Tytuł zadania i osoba nie mogą być puste.");
         return;
     }
-
-/*    // Przykład zapytania SQL
-    QSqlQuery query;
-    query.prepare("INSERT INTO tasks (person, title, description) VALUES (:person, :title, :description)");
-    query.bindValue(":person", person);
-    query.bindValue(":title", title);
-    query.bindValue(":description", description);
-
-    if (!query.exec()) {
-        QMessageBox::critical(this, "Błąd", "Nie udało się zapisać zadania: " + query.lastError().text());
-        return;
-    }*/
-
-    emit taskAdded(title, description);  // Wysyłanie sygnału
+    this->database.addTask(person, title, description);
+    emit taskAdded(person, title, description);  // Wysyłanie sygnału
 
     QMessageBox::information(this, "Sukces", "Zadanie zostało dodane.");
     close();

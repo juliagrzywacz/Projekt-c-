@@ -1,5 +1,6 @@
 #include "WeekView.h"
 #include "TaskWindow.h"
+#include "database.h"
 
 WeekView::WeekView(QWidget *parent) : QWidget(parent) {
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
@@ -63,8 +64,6 @@ WeekView::WeekView(QWidget *parent) : QWidget(parent) {
             connect(cell, &QPushButton::clicked, this, [this, row, col]() {
                 showTaskAddWindow(row, col);
             });
-
-
         }
     }
 
@@ -108,25 +107,15 @@ void WeekView::updateCalendar() {
     dateRangeButton->setText(currentWeekStartDate.toString("dd.MM") + " - " + endDate.toString("dd.MM"));
 }
 
-/*void WeekView::showTaskAddWindow(int row, int col) {
-    if (!taskAddWindow) {
-        taskAddWindow = new TaskAddWindow(this);
-    }
-
-    // Ustawienia pozycji okna (opcjonalnie)
-    taskAddWindow->move(this->geometry().center() - taskAddWindow->rect().center());
-
-    taskAddWindow->show();
-    taskAddWindow->raise();
-    taskAddWindow->activateWindow();
-}*/
-
 void WeekView::showTaskAddWindow(int row, int col) {
     if (!taskAddWindow) {
         taskAddWindow = new TaskAddWindow(this);
-        connect(taskAddWindow, &TaskAddWindow::taskAdded, this, [this](const QString &title, const QString &description) {
-            // Możliwosc obsłużenia dodawania zadania, np. zapis do bazy danych lub aktualizację widoku.
+        // Ustawienia pozycji okna (opcjonalnie)
+        taskAddWindow->move(this->geometry().center() - taskAddWindow->rect().center());
 
+        connect(taskAddWindow, &TaskAddWindow::taskAdded, this, [this](const QString &person, const QString &title, const QString &description) {
+
+            //this->database.addTask(person, title, description);
             qDebug() << "Dodano zadanie: " << title << ", " << description;
         });
     }

@@ -5,6 +5,10 @@
 
 void initializeDatabase();
 
-bool addTask(const QString& person, const QString& title, const QString& description, const QString& dueDate);
+class Database {
+    public:
+        bool addTask(const QString &person, const QString &title, const QString &description);
+        //bool addTask(const QString &person, const QString &title, const QString &description, const QString &dueDate);
+};
 
 #endif // DATABASE_H

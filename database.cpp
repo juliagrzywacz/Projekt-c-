@@ -32,6 +32,23 @@ void initializeDatabase() {
 }
 
 
+bool Database::addTask(const QString& person, const QString &title, const QString &description) {
+    QSqlQuery query;
+    query.prepare("INSERT INTO tasks (person, title, description, completed) VALUES (:person, :title, :description, 0)");
+    query.bindValue(":person", person);
+    query.bindValue(":title", title);
+    query.bindValue(":description", description);
+
+    if (!query.exec()) {
+        qDebug() << "Blad przy dodawaniu zadania:" << query.lastError().text();
+        return false;
+    }
+
+    qDebug() << "Zadanie zostalo dodane!";
+    return true;
+}
+
+/*
 bool addTask(const QString& person, const QString &title, const QString &description, const QString &dueDate) {
     QSqlQuery query;
     query.prepare("INSERT INTO tasks (person, title, description, due_date, completed) VALUES (:person, :title, :description, :dueDate, 0)");
@@ -47,4 +64,4 @@ bool addTask(const QString& person, const QString &title, const QString &descrip
 
     qDebug() << "Zadanie zostalo dodane!";
     return true;
-}
+}*/
