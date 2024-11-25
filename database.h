@@ -7,8 +7,8 @@ void initializeDatabase();
 
 class Database {
     public:
-        bool addTask(const QString &person, const QString &title, const QString &description);
-        //bool addTask(const QString &person, const QString &title, const QString &description, const QString &dueDate);
+        bool addTask(const QString &person, const QString &title, const QString &description, const QString &due_date, const QString &time);
+
 };
 
 #endif // DATABASE_H

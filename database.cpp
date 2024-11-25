@@ -22,7 +22,8 @@ void initializeDatabase() {
                     "person TEXT NOT NULL, "
                     "title TEXT NOT NULL, "
                     "description TEXT, "
-                    "due_date TEXT, "
+                    "due_date DATE, "
+                    "time TIME, "
                     "completed INTEGER DEFAULT 0)"))
     {
         qDebug() << "Blad przy tworzeniu tabeli:" << query.lastError().text();
@@ -32,12 +33,14 @@ void initializeDatabase() {
 }
 
 
-bool Database::addTask(const QString& person, const QString &title, const QString &description) {
+bool Database::addTask(const QString& person, const QString &title, const QString &description,  const QString &due_date,  const QString &time) {
     QSqlQuery query;
-    query.prepare("INSERT INTO tasks (person, title, description, completed) VALUES (:person, :title, :description, 0)");
+    query.prepare("INSERT INTO tasks (person, title, description, completed, due_date, time) VALUES (:person, :title, :description, 0, :due_date, :time)");
     query.bindValue(":person", person);
     query.bindValue(":title", title);
     query.bindValue(":description", description);
+    query.bindValue(":due_date", due_date);
+    query.bindValue(":time", time);
 
     if (!query.exec()) {
         qDebug() << "Blad przy dodawaniu zadania:" << query.lastError().text();
