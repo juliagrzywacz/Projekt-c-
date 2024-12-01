@@ -23,6 +23,7 @@ void initializeDatabase() {
                     "title TEXT NOT NULL, "
                     "description TEXT, "
                     "due_date DATE, "
+                    "start_time TIME, "
                     "time TIME, "
                     "completed INTEGER DEFAULT 0)"))
     {
@@ -33,13 +34,14 @@ void initializeDatabase() {
 }
 
 
-bool Database::addTask(const QString& person, const QString &title, const QString &description,  const QString &due_date,  const QString &time) {
+bool Database::addTask(const QString& person, const QString &title, const QString &description,  const QString &due_date, const QString &start_time,  const QString &time) {
     QSqlQuery query;
-    query.prepare("INSERT INTO tasks (person, title, description, completed, due_date, time) VALUES (:person, :title, :description, 0, :due_date, :time)");
+    query.prepare("INSERT INTO tasks (person, title, description, due_date, start_time, time, completed) VALUES (:person, :title, :description, :due_date, :start_time, :time, 0)");
     query.bindValue(":person", person);
     query.bindValue(":title", title);
     query.bindValue(":description", description);
     query.bindValue(":due_date", due_date);
+    query.bindValue(":start_time", start_time);
     query.bindValue(":time", time);
 
     if (!query.exec()) {
@@ -51,20 +53,3 @@ bool Database::addTask(const QString& person, const QString &title, const QStrin
     return true;
 }
 
-/*
-bool addTask(const QString& person, const QString &title, const QString &description, const QString &dueDate) {
-    QSqlQuery query;
-    query.prepare("INSERT INTO tasks (person, title, description, due_date, completed) VALUES (:person, :title, :description, :dueDate, 0)");
-    query.bindValue(":person", person);
-    query.bindValue(":title", title);
-    query.bindValue(":description", description);
-    query.bindValue(":due_date", dueDate);
-
-    if (!query.exec()) {
-        qDebug() << "Blad przy dodawaniu zadania:" << query.lastError().text();
-        return false;
-    }
-
-    qDebug() << "Zadanie zostalo dodane!";
-    return true;
-}*/

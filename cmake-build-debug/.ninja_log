@@ -64,3 +64,27 @@
 2466	2829	7541970739180524	App.exe	dde6b96c4f772aef
 38	2489	7541971011950972	CMakeFiles/App.dir/TaskWindow.cpp.obj	d5ae1c09d8b3bf5e
 2489	2841	7541971015416780	App.exe	dde6b96c4f772aef
+70	5412	7542432789020011	CMakeFiles/App.dir/TaskWindow.cpp.obj	d5ae1c09d8b3bf5e
+5413	6519	7542432799949912	App.exe	dde6b96c4f772aef
+52	2803	7542434613303452	CMakeFiles/App.dir/TaskWindow.cpp.obj	d5ae1c09d8b3bf5e
+2804	3253	7542434617834268	App.exe	dde6b96c4f772aef
+34	333	7542467685045765	moc_database.cpp	e1b503fab2a3926d
+34	333	7542467685045765	D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_database.cpp	e1b503fab2a3926d
+65	340	7542467685100007	moc_TaskWindow.cpp	3dd46f5222cbd2e7
+65	340	7542467685100007	D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_TaskWindow.cpp	3dd46f5222cbd2e7
+408	651	7542467688185543	CMakeFiles/App.dir/moc_database.cpp.obj	5fe6ff184c9e1c46
+372	5193	7542467733380166	CMakeFiles/App.dir/database.cpp.obj	e34819ee0f7c92be
+341	6015	7542467741837346	CMakeFiles/App.dir/main.cpp.obj	f5a8a09143fe9dbd
+384	6134	7542467743059140	CMakeFiles/App.dir/TaskWindow.cpp.obj	d5ae1c09d8b3bf5e
+354	6189	7542467743592383	CMakeFiles/App.dir/WeekView.cpp.obj	fb02a9cc500bd432
+651	6200	7542467743720119	CMakeFiles/App.dir/moc_TaskWindow.cpp.obj	aa40883990fbbd02
+396	6210	7542467743815988	CMakeFiles/App.dir/moc_WeekView.cpp.obj	ee9fa12b048fc002
+6210	7400	7542467755669740	App.exe	dde6b96c4f772aef
+34	2134	7542473059993744	CMakeFiles/App.dir/database.cpp.obj	e34819ee0f7c92be
+2135	2535	7542473063939769	App.exe	dde6b96c4f772aef
+48	2238	7542473675812833	CMakeFiles/App.dir/database.cpp.obj	e34819ee0f7c92be
+2239	2627	7542473679617785	App.exe	dde6b96c4f772aef
+41	1925	7542477737517958	CMakeFiles/App.dir/database.cpp.obj	e34819ee0f7c92be
+1925	2381	7542477742023668	App.exe	dde6b96c4f772aef
+32	2347	7547913558366368	CMakeFiles/App.dir/database.cpp.obj	e34819ee0f7c92be
+2348	2970	7547913564514470	App.exe	dde6b96c4f772aef

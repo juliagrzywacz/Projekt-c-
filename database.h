@@ -7,7 +7,7 @@ void initializeDatabase();
 
 class Database {
     public:
-        bool addTask(const QString &person, const QString &title, const QString &description, const QString &due_date, const QString &time);
+        bool addTask(const QString &person, const QString &title, const QString &description, const QString &due_date, const QString &start_time, const QString &time);
 
 };
 

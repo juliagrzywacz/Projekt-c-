@@ -19,7 +19,7 @@ public:
     explicit TaskAddWindow(QWidget *parent = nullptr);
 
 signals:
-    void taskAdded(const QString &person, const QString &title, const QString &description, const QString &dueDate, const QString &time);
+    void taskAdded(const QString &person, const QString &title, const QString &description, const QString &dueDate, const QString &startTime, const QString &time);
 
 private:
     Database database;
@@ -27,6 +27,7 @@ private:
     QLineEdit *taskTitleEdit;
     QLineEdit *taskDescriptionEdit;
     QDateEdit *taskDueDateEdit;
+    QTimeEdit *taskStartTimeEdit;
     QTimeEdit *taskTimeEdit;
     QPushButton *saveButton;
     QPushButton *cancelButton;
