@@ -4,6 +4,7 @@
 #include <QMessageBox>
 
 TaskAddWindow::TaskAddWindow(QWidget *parent) : QWidget(parent) {
+    qDebug() << "Tworzenie okna TaskAddWindow";
     setWindowTitle("Dodaj zadanie");
     setFixedSize(300, 400);
     this->setStyleSheet("background-color: lightgray;");
@@ -23,16 +24,19 @@ TaskAddWindow::TaskAddWindow(QWidget *parent) : QWidget(parent) {
     taskDescriptionEdit->setPlaceholderText("Wpisz opis zadania");
 
     // Widget do wyboru daty
-    taskDueDateEdit = new QDateEdit(QDate::currentDate(), this);  // Domyślnie ustawia dzisiejszą datę
+    taskDueDateEdit = new QDateEdit(this);
+    if (!taskDueDateEdit) {
+        qDebug() << "taskDueDateEdit nie został poprawnie zainicjalizowany!";
+    }
     taskDueDateEdit->setDisplayFormat("yyyy-MM-dd");
     taskDueDateEdit->setCalendarPopup(true);
 
     // Widget do wyboru czasu rozpoczecia zadania
-    taskStartTimeEdit = new QTimeEdit(QTime::currentTime(), this);  // Domyślnie ustawia bieżący czas
+    taskStartTimeEdit = new QTimeEdit(this);  // Domyślnie ustawia bieżący czas
     taskStartTimeEdit->setDisplayFormat("HH:mm");
 
     // Widget do wyboru czasu
-    taskTimeEdit = new QTimeEdit(QTime::currentTime(), this);  // Domyślnie ustawia bieżący czas
+    taskTimeEdit = new QTimeEdit(this);  // Domyślnie ustawia bieżący czas
     taskTimeEdit->setDisplayFormat("HH:mm");
 
     // Przycisk zapisz
@@ -64,6 +68,16 @@ TaskAddWindow::TaskAddWindow(QWidget *parent) : QWidget(parent) {
     layout->addLayout(buttonLayout);
 
     setLayout(layout);
+}
+
+void TaskAddWindow::setInitialDateTime(const QDate &date, const QTime &time) {
+    taskStartTimeEdit->setTime(time);
+    if (taskDueDateEdit) {
+        taskDueDateEdit->setDate(date);  // Ustawienie daty
+        qDebug() << "taskDueDateEdit poprawne!";
+    } else {
+        qDebug() << "taskDueDateEdit nie jest zainicjowane!";
+    }
 }
 
 void TaskAddWindow::saveTask() {

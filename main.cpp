@@ -3,7 +3,6 @@
 #include "WeekView.h"
 #include "database.h"
 
-
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
     QMainWindow mainWindow;
@@ -11,8 +10,17 @@ int main(int argc, char *argv[]) {
     // Inicjalizacja bazy danych
     initializeDatabase();
 
-    // Tworzenie widoku tygodniowego i ustawienie go jako centralny widget w oknie głównym
+    // Tworzenie widoku tygodniowego
     WeekView *weekView = new WeekView;
+
+    // Debugowanie: sprawdzenie czy widok tygodniowy jest stworzony
+    if (weekView) {
+        qDebug() << "Widok tygodniowy stworzony.";
+    } else {
+        qDebug() << "Nie udało się stworzyć widoku tygodniowego.";
+    }
+
+    // Ustawienie go jako centralny widget w oknie głównym
     mainWindow.setCentralWidget(weekView);
 
     mainWindow.setWindowTitle("Kalendarz Tygodniowy");

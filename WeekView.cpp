@@ -2,7 +2,7 @@
 #include "TaskWindow.h"
 #include "database.h"
 
-WeekView::WeekView(QWidget *parent) : QWidget(parent) {
+WeekView::WeekView(QWidget *parent) : QWidget(parent), taskAddWindow(nullptr) {
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
 
     // Ustawienie bieżącego tygodnia na poniedziałek aktualnego tygodnia
@@ -51,7 +51,6 @@ WeekView::WeekView(QWidget *parent) : QWidget(parent) {
         layout->addWidget(dayLabels[i], 1, i + 1); // Ustawienie nazw dni tygodnia
     }
 
-    // Wypełnianie tabeli komórkami dla zadań
     for (int row = 0; row < hours.size(); ++row) {
         for (int col = 0; col < days.size(); ++col) {
             QPushButton *cell = new QPushButton(this);
@@ -60,9 +59,17 @@ WeekView::WeekView(QWidget *parent) : QWidget(parent) {
 
             layout->addWidget(cell, row + 2, col + 1);
 
-            // Po kliknięciu otwórz okno dodawania zadania
-            connect(cell, &QPushButton::clicked, this, [this, row, col]() {
-                showTaskAddWindow(row, col);
+            // Oblicz datę i czas dla tej komórki
+            QDate cellDate = currentWeekStartDate.addDays(col);  // Kolumna to dzień tygodnia
+            QTime cellTime = QTime(6 + row * 2, 0);              // Wiersz to godzina (np. 06:00 + 2h na wiersz)
+
+            // Zapisz datę i godzinę w mapie
+            cellDateTimeMap[cell] = qMakePair(cellDate, cellTime);
+
+            // Po kliknięciu otwórz okno dodawania zadania z odpowiednią datą i godziną
+            connect(cell, &QPushButton::clicked, this, [this, cell]() {
+                QPair<QDate, QTime> dateTime = cellDateTimeMap[cell];
+                showTaskAddWindow(dateTime.first, dateTime.second);
             });
         }
     }
@@ -107,20 +114,37 @@ void WeekView::updateCalendar() {
     dateRangeButton->setText(currentWeekStartDate.toString("dd.MM") + " - " + endDate.toString("dd.MM"));
 }
 
-void WeekView::showTaskAddWindow(int row, int col) {
+void WeekView::showTaskAddWindow(const QDate &date, const QTime &time) {
     if (!taskAddWindow) {
+        qDebug() << "Tworzenie nowego okna TaskAddWindow...";
         taskAddWindow = new TaskAddWindow(this);
-        // Ustawienia pozycji okna (opcjonalnie)
+        // Ustawienia pozycji okna
         taskAddWindow->move(this->geometry().center() - taskAddWindow->rect().center());
-
-        connect(taskAddWindow, &TaskAddWindow::taskAdded, this, [this](const QString &person, const QString &title, const QString &description) {
-
-            //this->database.addTask(person, title, description);
-            qDebug() << "Dodano zadanie: " << title << ", " << description;
-        });
+    } else {
+        qDebug() << "Okno TaskAddWindow już istnieje.";
     }
 
-    taskAddWindow->show();
+    connect(taskAddWindow, &TaskAddWindow::taskAdded, this, [this](const QString &person, const QString &title, const QString &description) {
+        qDebug() << "Dodano zadanie: " << title << ", " << description;
+    });
+
+    // Sprawdzenie, czy taskAddWindow jest null lub nie
+    if (!taskAddWindow) {
+        qDebug() << "taskAddWindow jest nullptr";
+        return;
+    }
+
+
+    qDebug() << "Ustawianie daty i godziny";
+    taskAddWindow->setInitialDateTime(date, time);
+
+    // Jeżeli okno nie jest widoczne, to je pokazujemy
+    if (!taskAddWindow->isVisible()) {
+        taskAddWindow->show();
+    }
+
     taskAddWindow->raise();
     taskAddWindow->activateWindow();
 }
+
+

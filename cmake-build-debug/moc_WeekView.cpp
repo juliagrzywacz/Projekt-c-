@@ -43,8 +43,7 @@ constexpr auto qt_meta_stringdata_CLASSWeekViewENDCLASS = QtMocHelpers::stringDa
     "onDateSelected",
     "date",
     "showTaskAddWindow",
-    "row",
-    "col"
+    "time"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -76,7 +75,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSWeekViewENDCLASS[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::QDate,    6,
-    QMetaType::Void, QMetaType::Int, QMetaType::Int,    8,    9,
+    QMetaType::Void, QMetaType::QDate, QMetaType::QTime,    6,    8,
 
        0        // eod
 };
@@ -101,8 +100,8 @@ Q_CONSTINIT const QMetaObject WeekView::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<const QDate &, std::false_type>,
         // method 'showTaskAddWindow'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<int, std::false_type>,
-        QtPrivate::TypeAndForceComplete<int, std::false_type>
+        QtPrivate::TypeAndForceComplete<const QDate &, std::false_type>,
+        QtPrivate::TypeAndForceComplete<const QTime &, std::false_type>
     >,
     nullptr
 } };
@@ -117,7 +116,7 @@ void WeekView::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
         case 1: _t->showNextWeek(); break;
         case 2: _t->openCalendar(); break;
         case 3: _t->onDateSelected((*reinterpret_cast< std::add_pointer_t<QDate>>(_a[1]))); break;
-        case 4: _t->showTaskAddWindow((*reinterpret_cast< std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<int>>(_a[2]))); break;
+        case 4: _t->showTaskAddWindow((*reinterpret_cast< std::add_pointer_t<QDate>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QTime>>(_a[2]))); break;
         default: ;
         }
     }

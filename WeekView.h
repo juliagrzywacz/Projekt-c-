@@ -8,6 +8,8 @@
 #include <QDate>
 #include <QCalendarWidget>
 #include <QVBoxLayout>
+#include <QMap>
+#include <QPair>
 #include "TaskWindow.h"
 #include "database.h"
 
@@ -22,18 +24,17 @@ private slots:
     void showNextWeek();
     void openCalendar();
     void onDateSelected(const QDate &date);
-    void showTaskAddWindow(int row, int col);
+    void showTaskAddWindow(const QDate &date, const QTime &time);
 
 private:
     void updateCalendar();
-
-   // Database database;
 
     QGridLayout *layout;
     QLabel *dayLabels[7];
     QDate currentWeekStartDate;
     QPushButton *dateRangeButton;
     QCalendarWidget *calendarWidget;
+    QMap<QPushButton*, QPair<QDate, QTime>> cellDateTimeMap;
 
     TaskAddWindow *taskAddWindow;  // Okno dodawania zadań
 };
