@@ -17,7 +17,7 @@ class WeekView : public QWidget {
 Q_OBJECT
 
 public:
-    explicit WeekView(QWidget *parent = nullptr);
+    explicit WeekView(Database &db, QWidget *parent = nullptr);
 
 private slots:
     void showPreviousWeek();
@@ -27,8 +27,9 @@ private slots:
     void showTaskAddWindow(const QDate &date, const QTime &time);
 
 private:
+    Database &database;
     void updateCalendar();
-
+    int calculateRowForTime(const QDate &date, const QPair<QString, QString> &task);
     QGridLayout *layout;
     QLabel *dayLabels[7];
     QDate currentWeekStartDate;

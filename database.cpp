@@ -3,6 +3,8 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QDebug>
+#include <QVariant>
+#include <QPair>
 
 
 void initializeDatabase() {
@@ -52,4 +54,53 @@ bool Database::addTask(const QString& person, const QString &title, const QStrin
     qDebug() << "Zadanie zostalo dodane!";
     return true;
 }
+
+QList<QPair<QString, QString>> Database::getTasksForDate(const QDate &date) {
+    QList<QPair<QString, QString>> tasks;
+
+    QSqlQuery query;
+    query.prepare("SELECT person, title FROM tasks WHERE due_date = :due_date");
+    query.bindValue(":due_date", date.toString("yyyy-MM-dd"));
+
+    if (!query.exec()) {
+        qDebug() << "Błąd podczas wykonywania zapytania getTasksForDate:" << query.lastError().text();
+        return tasks;
+    }
+
+    while (query.next()) {
+        QString person = query.value("person").toString();
+        QString title = query.value("title").toString();
+        tasks.append(qMakePair(person, title));
+    }
+
+    return tasks;
+}
+
+QTime Database::getTaskStartTimeForDate(const QDate &date, const QString &taskTitle) {
+    QSqlQuery query;
+    query.prepare("SELECT start_time FROM tasks WHERE due_date = :due_date AND title = :title");
+    query.bindValue(":due_date", date.toString("yyyy-MM-dd"));
+    query.bindValue(":title", taskTitle);
+
+    if (!query.exec()) {
+        qDebug() << "Błąd podczas wykonywania zapytania getTaskStartTimeForDate:" << query.lastError();
+        return QTime(); // Zwróć nieprawidłowy czas
+    }
+
+    if (query.next()) {
+        QVariant timeValue = query.value(0);
+        if (timeValue.isNull()) {
+            qDebug() << "Brak godziny rozpoczęcia dla zadania:" << taskTitle << "z datą:" << date;
+            return QTime(); // Zwróć nieprawidłowy czas
+        }
+
+        QTime startTime = timeValue.toTime();
+        qDebug() << "Godzina rozpoczęcia dla zadania:" << taskTitle << "to:" << startTime;
+        return startTime;
+    }
+
+    qDebug() << "Nie znaleziono zadania:" << taskTitle << "dla daty:" << date;
+    return QTime(); // Zwróć nieprawidłowy czas
+}
+
 

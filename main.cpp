@@ -11,7 +11,8 @@ int main(int argc, char *argv[]) {
     initializeDatabase();
 
     // Tworzenie widoku tygodniowego
-    WeekView *weekView = new WeekView;
+    Database database;  // Tworzymy instancję bazy danych
+    WeekView *weekView = new WeekView(database);
 
     // Debugowanie: sprawdzenie czy widok tygodniowy jest stworzony
     if (weekView) {

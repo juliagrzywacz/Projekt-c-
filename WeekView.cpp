@@ -1,8 +1,9 @@
 #include "WeekView.h"
 #include "TaskWindow.h"
 #include "database.h"
+#include <QGridLayout>
 
-WeekView::WeekView(QWidget *parent) : QWidget(parent), taskAddWindow(nullptr) {
+WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWindow(nullptr), database(db)  {
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
 
     // Ustawienie bieżącego tygodnia na poniedziałek aktualnego tygodnia
@@ -54,7 +55,7 @@ WeekView::WeekView(QWidget *parent) : QWidget(parent), taskAddWindow(nullptr) {
     for (int row = 0; row < hours.size(); ++row) {
         for (int col = 0; col < days.size(); ++col) {
             QPushButton *cell = new QPushButton(this);
-            cell->setText("");  // Puste komórki na początku
+            //cell->setText("");  // Puste komórki na początku
             cell->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
             layout->addWidget(cell, row + 2, col + 1);
@@ -106,13 +107,75 @@ void WeekView::updateCalendar() {
     // Aktualizacja etykiet dni tygodnia z datami
     for (int i = 0; i < 7; ++i) {
         QDate dayDate = currentWeekStartDate.addDays(i);
-        dayLabels[i]->setText(dayDate.toString("dddd dd.MM"));
+        dayLabels[i]->setText(dayDate.toString("yyyy-MM-dd"));
     }
 
     // Aktualizacja tekstu przycisku zakresu dat
     QDate endDate = currentWeekStartDate.addDays(6);
     dateRangeButton->setText(currentWeekStartDate.toString("dd.MM") + " - " + endDate.toString("dd.MM"));
+
+    // Przygotowanie do aktualizacji widoku
+    QGridLayout *gridLayout = qobject_cast<QGridLayout *>(layout);
+    if (!gridLayout) {
+        qDebug() << "Błąd: Nie znaleziono układu siatki!";
+        return;
+    }
+
+/*    // Wyczyszczenie wszystkich komórek w siatce
+    while (QLayoutItem *item = layout->takeAt(0)) {
+        if (QWidget *widget = item->widget()) {
+            widget->deleteLater();
+        }
+        delete item;
+    }*/
+
+    // Iteracja po dniach tygodnia
+    for (int day = 0; day < 7; ++day) {
+        QDate currentDate = currentWeekStartDate.addDays(day);
+
+        // Pobierz zadania dla bieżącej daty
+        QList<QPair<QString, QString>> tasks = database.getTasksForDate(currentDate);
+
+        for (const auto &task : tasks) {
+            QString person = task.first;
+            QString title = task.second;
+
+            // Oblicz pozycję w siatce
+            int row = calculateRowForTime(currentDate, task);
+            if (row < 1 || row >= layout->rowCount()) {
+                qDebug() << "Zadanie poza zakresem siatki: " << title;
+                continue;
+            }
+
+            // Utwórz QLabel i dodaj go do układu siatki
+            QLabel *taskLabel = new QLabel(person + ": " + title, this);
+            layout->addWidget(taskLabel, row, day + 1);
+        }
+    }
 }
+
+// Funkcja pomocnicza do obliczenia wiersza siatki na podstawie godziny zadania
+int WeekView::calculateRowForTime(const QDate &date, const QPair<QString, QString> &task) {
+    // Pobierz godzinę rozpoczęcia z bazy danych
+    QTime startTime = database.getTaskStartTimeForDate(date, task.second);
+    if (!startTime.isValid()) {
+        qDebug() << "Nieprawidłowa godzina dla zadania: " << task.second
+                 << "Data: " << date
+                 << "StartTime: " << startTime;
+        return -1;
+    }
+
+    int hour = startTime.hour();
+    if (hour < 6 || hour >= 22) {
+        qDebug() << "Zadanie poza zakresem godzin siatki: " << startTime;
+        return -1; // Zadanie poza zakresem siatki
+    }
+
+    // Mapowanie godzin na wiersze siatki
+    int row = (hour - 6) / 2 + 2; // Dodaj +2, aby uwzględnić nagłówk
+    return row;
+}
+
 
 void WeekView::showTaskAddWindow(const QDate &date, const QTime &time) {
     if (!taskAddWindow) {
@@ -128,12 +191,13 @@ void WeekView::showTaskAddWindow(const QDate &date, const QTime &time) {
         qDebug() << "Dodano zadanie: " << title << ", " << description;
     });
 
+    connect(taskAddWindow, &TaskAddWindow::taskAdded, this, &WeekView::updateCalendar);
+
     // Sprawdzenie, czy taskAddWindow jest null lub nie
     if (!taskAddWindow) {
         qDebug() << "taskAddWindow jest nullptr";
         return;
     }
-
 
     qDebug() << "Ustawianie daty i godziny";
     taskAddWindow->setInitialDateTime(date, time);

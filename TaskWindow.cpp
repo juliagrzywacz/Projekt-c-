@@ -98,3 +98,4 @@ void TaskAddWindow::saveTask() {
     QMessageBox::information(this, "Sukces", "Zadanie zostało dodane.");
     close();
 }
+
