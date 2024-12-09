@@ -4,7 +4,6 @@
 #include <QSqlError>
 #include <QDebug>
 #include <QVariant>
-#include <QPair>
 
 
 void initializeDatabase() {
@@ -35,7 +34,6 @@ void initializeDatabase() {
     }
 }
 
-
 bool Database::addTask(const QString& person, const QString &title, const QString &description,  const QString &due_date, const QString &start_time,  const QString &time) {
     QSqlQuery query;
     query.prepare("INSERT INTO tasks (person, title, description, due_date, start_time, time, completed) VALUES (:person, :title, :description, :due_date, :start_time, :time, 0)");
@@ -53,27 +51,6 @@ bool Database::addTask(const QString& person, const QString &title, const QStrin
 
     qDebug() << "Zadanie zostalo dodane!";
     return true;
-}
-
-QList<QPair<QString, QString>> Database::getTasksForDate(const QDate &date) {
-    QList<QPair<QString, QString>> tasks;
-
-    QSqlQuery query;
-    query.prepare("SELECT person, title FROM tasks WHERE due_date = :due_date");
-    query.bindValue(":due_date", date.toString("yyyy-MM-dd"));
-
-    if (!query.exec()) {
-        qDebug() << "Błąd podczas wykonywania zapytania getTasksForDate:" << query.lastError().text();
-        return tasks;
-    }
-
-    while (query.next()) {
-        QString person = query.value("person").toString();
-        QString title = query.value("title").toString();
-        tasks.append(qMakePair(person, title));
-    }
-
-    return tasks;
 }
 
 QTime Database::getTaskStartTimeForDate(const QDate &date, const QString &taskTitle) {
@@ -103,4 +80,33 @@ QTime Database::getTaskStartTimeForDate(const QDate &date, const QString &taskTi
     return QTime(); // Zwróć nieprawidłowy czas
 }
 
+// Metoda do pobierania zadań z bazy danych na dany tydzień
+QList<Task> Database::getTasksForWeek(const QDate &startOfWeek) {
+    QList<Task> tasks;
 
+    QSqlQuery query;
+    // Zapytanie SQL pobierające zadania z tabeli dla danego tygodnia
+    query.prepare("SELECT id, person, title, description, due_date, start_time, time, completed "
+                  "FROM tasks WHERE due_date >= :startOfWeek AND due_date < :endOfWeek");
+    query.bindValue(":startOfWeek", startOfWeek);
+    query.bindValue(":endOfWeek", startOfWeek.addDays(7));
+
+    if (query.exec()) {
+        while (query.next()) {
+            Task task;
+            task.id = query.value("id").toInt();                 // Pobieranie id zadania
+            task.person = query.value("person").toString();       // Pobieranie osoby odpowiedzialnej
+            task.title = query.value("title").toString();         // Pobieranie tytułu
+            task.description = query.value("description").toString(); // Pobieranie opisu
+            task.dueDate = query.value("due_date").toDate();      // Pobieranie daty wykonania
+            task.startTime = query.value("start_time").toTime();  // Pobieranie godziny rozpoczęcia
+            task.time = query.value("time").toTime();             // Pobieranie czasu trwania
+            task.completed = query.value("completed").toInt();    // Pobieranie statusu ukończenia
+            tasks.append(task);
+        }
+    } else {
+        qDebug() << "Błąd zapytania SQL:" << query.lastError();
+    }
+
+    return tasks;
+}

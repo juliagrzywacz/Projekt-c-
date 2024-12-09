@@ -1,11 +1,11 @@
 # ninja log v5
-35	812	7548457124989632	build.ninja	8321531de67645a
 233	522	7548416330964424	D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_WeekView.cpp	1fe2df81f9237a7
+15	4015	7553987728601294	build.ninja	8321531de67645a
 319	10216	7548434239388032	CMakeFiles/App.dir/main.cpp.obj	f5a8a09143fe9dbd
 32	2550	7535849648247963	CMakeFiles/App.dir/TaskWIndow.cpp.obj	7b14601223032450
-2831	3287	7548449533741056	App.exe	f032b9883dd425ef
+2828	3254	7548460518661462	App.exe	dde6b96c4f772aef
+49	2827	7548460514447881	CMakeFiles/App.dir/WeekView.cpp.obj	fb02a9cc500bd432
 12	27	0	clean	23841cd9e0f6f05a
-49	2830	7548449529231575	CMakeFiles/App.dir/WeekView.cpp.obj	fb02a9cc500bd432
 233	522	7548416330964424	moc_WeekView.cpp	1fe2df81f9237a7
 380	9633	7548434233426980	CMakeFiles/App.dir/moc_WeekView.cpp.obj	ee9fa12b048fc002
 60	175	7523820918381935	moc_DatabaseManager.cpp	e3a870109cb332d7
@@ -22,8 +22,38 @@
 50	144	7548045903062030	moc_TaskItem.cpp	dfa072e38ae88564
 50	144	7548045903062030	D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_TaskItem.cpp	dfa072e38ae88564
 160	4092	7548045942546782	CMakeFiles/App.dir/moc_TaskItem.cpp.obj	c39d273a75837242
-15	4015	7548457124989632	build.ninja	8321531de67645a
-56	2858	7548457154870265	CMakeFiles/App.dir/WeekView.cpp.obj	fb02a9cc500bd432
-2858	3338	7548457159705887	App.exe	dde6b96c4f772aef
-49	2827	7548460514447881	CMakeFiles/App.dir/WeekView.cpp.obj	fb02a9cc500bd432
-2828	3254	7548460518661462	App.exe	dde6b96c4f772aef
+58	3699	7553987728601294	build.ninja	8321531de67645a
+62	254	7553987732214891	moc_database.cpp	e1b503fab2a3926d
+62	254	7553987732214891	D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_database.cpp	e1b503fab2a3926d
+32	266	7553987732327275	moc_WeekView.cpp	1fe2df81f9237a7
+32	266	7553987732327275	D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_WeekView.cpp	1fe2df81f9237a7
+296	395	7553987733596826	CMakeFiles/App.dir/moc_database.cpp.obj	5fe6ff184c9e1c46
+276	4243	7553987771587453	CMakeFiles/App.dir/database.cpp.obj	e34819ee0f7c92be
+289	4871	7553987778318437	CMakeFiles/App.dir/moc_WeekView.cpp.obj	ee9fa12b048fc002
+395	4984	7553987779473627	CMakeFiles/App.dir/moc_TaskWindow.cpp.obj	aa40883990fbbd02
+266	4994	7553987779586476	CMakeFiles/App.dir/main.cpp.obj	f5a8a09143fe9dbd
+283	5061	7553987780247134	CMakeFiles/App.dir/TaskWindow.cpp.obj	d5ae1c09d8b3bf5e
+271	5385	7553987783479122	CMakeFiles/App.dir/WeekView.cpp.obj	fb02a9cc500bd432
+5386	5936	7553987788963835	App.exe	dde6b96c4f772aef
+37	3441	7554000790740127	CMakeFiles/App.dir/WeekView.cpp.obj	fb02a9cc500bd432
+3442	3931	7554000795631300	App.exe	dde6b96c4f772aef
+24	2917	7554001880723654	CMakeFiles/App.dir/WeekView.cpp.obj	fb02a9cc500bd432
+2917	3371	7554001885203453	App.exe	dde6b96c4f772aef
+41	2871	7554004072692067	CMakeFiles/App.dir/WeekView.cpp.obj	fb02a9cc500bd432
+2871	3329	7554004077323951	App.exe	dde6b96c4f772aef
+47	2868	7554006136544177	CMakeFiles/App.dir/WeekView.cpp.obj	fb02a9cc500bd432
+2869	3323	7554006141037967	App.exe	dde6b96c4f772aef
+42	3035	7554010075995771	CMakeFiles/App.dir/WeekView.cpp.obj	fb02a9cc500bd432
+3036	3510	7554010080689932	App.exe	dde6b96c4f772aef
+87	201	7554524574983323	moc_WeekView.cpp	1fe2df81f9237a7
+87	201	7554524574983323	D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_WeekView.cpp	1fe2df81f9237a7
+106	202	7554524575003536	moc_database.cpp	e1b503fab2a3926d
+106	202	7554524575003536	D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_database.cpp	e1b503fab2a3926d
+262	503	7554524578000078	CMakeFiles/App.dir/moc_database.cpp.obj	5fe6ff184c9e1c46
+223	5202	7554524624951021	CMakeFiles/App.dir/database.cpp.obj	e34819ee0f7c92be
+203	5700	7554524629436183	CMakeFiles/App.dir/main.cpp.obj	f5a8a09143fe9dbd
+253	5708	7554524629647554	CMakeFiles/App.dir/moc_WeekView.cpp.obj	ee9fa12b048fc002
+503	5824	7554524631223076	CMakeFiles/App.dir/moc_TaskWindow.cpp.obj	aa40883990fbbd02
+242	5839	7554524631340086	CMakeFiles/App.dir/TaskWindow.cpp.obj	d5ae1c09d8b3bf5e
+212	6320	7554524636145418	CMakeFiles/App.dir/WeekView.cpp.obj	fb02a9cc500bd432
+6321	7084	7554524643763793	App.exe	dde6b96c4f772aef

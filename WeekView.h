@@ -30,6 +30,8 @@ private:
     Database &database;
     void updateCalendar();
     int calculateRowForTime(const QDate &date, const QPair<QString, QString> &task);
+    void displayTasksForWeek();
+
     QGridLayout *layout;
     QLabel *dayLabels[7];
     QDate currentWeekStartDate;

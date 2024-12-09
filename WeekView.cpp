@@ -55,7 +55,7 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
     for (int row = 0; row < hours.size(); ++row) {
         for (int col = 0; col < days.size(); ++col) {
             QPushButton *cell = new QPushButton(this);
-            //cell->setText("");  // Puste komórki na początku
+            cell->setText("");  // Puste komórki na początku
             cell->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
             layout->addWidget(cell, row + 2, col + 1);
@@ -114,67 +114,21 @@ void WeekView::updateCalendar() {
     QDate endDate = currentWeekStartDate.addDays(6);
     dateRangeButton->setText(currentWeekStartDate.toString("dd.MM") + " - " + endDate.toString("dd.MM"));
 
-    // Przygotowanie do aktualizacji widoku
-    QGridLayout *gridLayout = qobject_cast<QGridLayout *>(layout);
-    if (!gridLayout) {
-        qDebug() << "Błąd: Nie znaleziono układu siatki!";
-        return;
-    }
-
-/*    // Wyczyszczenie wszystkich komórek w siatce
-    while (QLayoutItem *item = layout->takeAt(0)) {
-        if (QWidget *widget = item->widget()) {
-            widget->deleteLater();
-        }
-        delete item;
-    }*/
-
-    // Iteracja po dniach tygodnia
-    for (int day = 0; day < 7; ++day) {
-        QDate currentDate = currentWeekStartDate.addDays(day);
-
-        // Pobierz zadania dla bieżącej daty
-        QList<QPair<QString, QString>> tasks = database.getTasksForDate(currentDate);
-
-        for (const auto &task : tasks) {
-            QString person = task.first;
-            QString title = task.second;
-
-            // Oblicz pozycję w siatce
-            int row = calculateRowForTime(currentDate, task);
-            if (row < 1 || row >= layout->rowCount()) {
-                qDebug() << "Zadanie poza zakresem siatki: " << title;
-                continue;
+    // Czyszczenie widoku zadań, żeby nie wyświetlały się z innych tygodni
+    for (int row = 2; row < layout->rowCount(); ++row) {
+        for (int col = 1; col < layout->columnCount(); ++col) {
+            QPushButton *button = dynamic_cast<QPushButton*>(layout->itemAtPosition(row, col)->widget());
+            if (button) {
+                button->setText("");  // Usunięcie tekstu z przycisku (czyli czyszczenie zadań)
             }
-
-            // Utwórz QLabel i dodaj go do układu siatki
-            QLabel *taskLabel = new QLabel(person + ": " + title, this);
-            layout->addWidget(taskLabel, row, day + 1);
         }
     }
+
+    // Wywołanie funkcji wyświetlającej zadania na dany tydzień
+    displayTasksForWeek();
 }
 
-// Funkcja pomocnicza do obliczenia wiersza siatki na podstawie godziny zadania
-int WeekView::calculateRowForTime(const QDate &date, const QPair<QString, QString> &task) {
-    // Pobierz godzinę rozpoczęcia z bazy danych
-    QTime startTime = database.getTaskStartTimeForDate(date, task.second);
-    if (!startTime.isValid()) {
-        qDebug() << "Nieprawidłowa godzina dla zadania: " << task.second
-                 << "Data: " << date
-                 << "StartTime: " << startTime;
-        return -1;
-    }
 
-    int hour = startTime.hour();
-    if (hour < 6 || hour >= 22) {
-        qDebug() << "Zadanie poza zakresem godzin siatki: " << startTime;
-        return -1; // Zadanie poza zakresem siatki
-    }
-
-    // Mapowanie godzin na wiersze siatki
-    int row = (hour - 6) / 2 + 2; // Dodaj +2, aby uwzględnić nagłówk
-    return row;
-}
 
 
 void WeekView::showTaskAddWindow(const QDate &date, const QTime &time) {
@@ -211,4 +165,47 @@ void WeekView::showTaskAddWindow(const QDate &date, const QTime &time) {
     taskAddWindow->activateWindow();
 }
 
+void WeekView::displayTasksForWeek() {
+    // Pobierz zadania dla bieżącego tygodnia
+    QList<Task> tasks = database.getTasksForWeek(currentWeekStartDate);
 
+    // Przypisz zadania do odpowiednich komórek
+    for (const Task &task : tasks) {
+        // Określenie, która komórka odpowiada za ten dzień i godzinę
+        int dayIndex = currentWeekStartDate.daysTo(task.dueDate);
+        if (dayIndex < 0 || dayIndex >= 7) {
+            continue; // Pomijamy zadania, które nie pasują do tego tygodnia
+        }
+
+        // Określ, w której komórce (w której godzinie) zadanie ma się pojawić
+        int row = calculateRowForTime(task.dueDate, QPair<QString, QString>(task.time.toString(), task.title));
+
+        // Dodaj zadanie do odpowiedniego przycisku
+        QPushButton *button = dynamic_cast<QPushButton*>(layout->itemAtPosition(row, dayIndex)->widget());
+        if (button) {
+            button->setText(button->text() + "\n" + task.title);
+        }
+    }
+}
+
+// Funkcja pomocnicza do obliczenia wiersza siatki na podstawie godziny zadania
+int WeekView::calculateRowForTime(const QDate &date, const QPair<QString, QString> &task) {
+    // Pobierz godzinę rozpoczęcia z bazy danych
+    QTime startTime = database.getTaskStartTimeForDate(date, task.second);
+    if (!startTime.isValid()) {
+        qDebug() << "Nieprawidłowa godzina dla zadania: " << task.second
+                 << "Data: " << date
+                 << "StartTime: " << startTime;
+        return -1;
+    }
+
+    int hour = startTime.hour();
+    if (hour < 6 || hour >= 22) {
+        qDebug() << "Zadanie poza zakresem godzin siatki: " << startTime;
+        return -1; // Zadanie poza zakresem siatki
+    }
+
+    // Mapowanie godzin na wiersze siatki
+    int row = (hour - 6) / 2 + 2; // Dodaj +2, aby uwzględnić nagłówk
+    return row;
+}
