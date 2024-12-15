@@ -4,7 +4,6 @@
 #include <QMessageBox>
 
 TaskAddWindow::TaskAddWindow(QWidget *parent) : QWidget(parent) {
-    qDebug() << "Tworzenie okna TaskAddWindow";
     setWindowTitle("Dodaj zadanie");
     setFixedSize(300, 400);
     this->setStyleSheet("background-color: lightgray;");
@@ -74,7 +73,6 @@ void TaskAddWindow::setInitialDateTime(const QDate &date, const QTime &time) {
     taskStartTimeEdit->setTime(time);
     if (taskDueDateEdit) {
         taskDueDateEdit->setDate(date);  // Ustawienie daty
-        qDebug() << "taskDueDateEdit poprawne!";
     } else {
         qDebug() << "taskDueDateEdit nie jest zainicjowane!";
     }
@@ -98,4 +96,3 @@ void TaskAddWindow::saveTask() {
     QMessageBox::information(this, "Sukces", "Zadanie zostało dodane.");
     close();
 }
-

@@ -9,17 +9,10 @@ int main(int argc, char *argv[]) {
 
     // Inicjalizacja bazy danych
     initializeDatabase();
+    Database database;  // Tworzymy instancję bazy danych
 
     // Tworzenie widoku tygodniowego
-    Database database;  // Tworzymy instancję bazy danych
     WeekView *weekView = new WeekView(database);
-
-    // Debugowanie: sprawdzenie czy widok tygodniowy jest stworzony
-    if (weekView) {
-        qDebug() << "Widok tygodniowy stworzony.";
-    } else {
-        qDebug() << "Nie udało się stworzyć widoku tygodniowego.";
-    }
 
     // Ustawienie go jako centralny widget w oknie głównym
     mainWindow.setCentralWidget(weekView);

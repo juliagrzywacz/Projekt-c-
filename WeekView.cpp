@@ -104,6 +104,23 @@ void WeekView::onDateSelected(const QDate &date) {
 }
 
 void WeekView::updateCalendar() {
+    // Czyszczenie widoku zadań, żeby nie wyświetlały się z innych tygodni
+    for (int row = 2; row < layout->rowCount(); ++row) {
+        for (int col = 1; col < layout->columnCount(); ++col) {
+            QPushButton *button = dynamic_cast<QPushButton*>(layout->itemAtPosition(row, col)->widget());
+            if (button) {
+                button->setText("");  // Usunięcie tekstu z przycisku (czyli czyszczenie zadań)
+
+                // Oblicz datę i czas dla tej komórki
+                QDate cellDate = currentWeekStartDate.addDays(col-1);  // Kolumna to dzień tygodnia
+                QTime cellTime = QTime(6 + ((row - 2) * 2), 0);              // Wiersz to godzina (np. 06:00 + 2h na wiersz)
+
+                // Zapisz datę i godzinę w mapie
+                cellDateTimeMap[button] = qMakePair(cellDate, cellTime);
+            }
+        }
+    }
+
     // Aktualizacja etykiet dni tygodnia z datami
     for (int i = 0; i < 7; ++i) {
         QDate dayDate = currentWeekStartDate.addDays(i);
@@ -114,26 +131,12 @@ void WeekView::updateCalendar() {
     QDate endDate = currentWeekStartDate.addDays(6);
     dateRangeButton->setText(currentWeekStartDate.toString("dd.MM") + " - " + endDate.toString("dd.MM"));
 
-    // Czyszczenie widoku zadań, żeby nie wyświetlały się z innych tygodni
-    for (int row = 2; row < layout->rowCount(); ++row) {
-        for (int col = 1; col < layout->columnCount(); ++col) {
-            QPushButton *button = dynamic_cast<QPushButton*>(layout->itemAtPosition(row, col)->widget());
-            if (button) {
-                button->setText("");  // Usunięcie tekstu z przycisku (czyli czyszczenie zadań)
-            }
-        }
-    }
-
     // Wywołanie funkcji wyświetlającej zadania na dany tydzień
     displayTasksForWeek();
 }
 
-
-
-
 void WeekView::showTaskAddWindow(const QDate &date, const QTime &time) {
     if (!taskAddWindow) {
-        qDebug() << "Tworzenie nowego okna TaskAddWindow...";
         taskAddWindow = new TaskAddWindow(this);
         // Ustawienia pozycji okna
         taskAddWindow->move(this->geometry().center() - taskAddWindow->rect().center());
@@ -153,7 +156,6 @@ void WeekView::showTaskAddWindow(const QDate &date, const QTime &time) {
         return;
     }
 
-    qDebug() << "Ustawianie daty i godziny";
     taskAddWindow->setInitialDateTime(date, time);
 
     // Jeżeli okno nie jest widoczne, to je pokazujemy
@@ -183,7 +185,7 @@ void WeekView::displayTasksForWeek() {
         // Dodaj zadanie do odpowiedniego przycisku
         QPushButton *button = dynamic_cast<QPushButton*>(layout->itemAtPosition(row, dayIndex)->widget());
         if (button) {
-            button->setText(button->text() + "\n" + task.title);
+            button->setText(button->text() + task.person + "\n" + task.title);
         }
     }
 }

@@ -13,14 +13,14 @@
 #include "database.h"
 
 class TaskAddWindow : public QWidget {
-Q_OBJECT
+    Q_OBJECT
 
 public:
     explicit TaskAddWindow(QWidget *parent = nullptr);
     void setInitialDateTime(const QDate &date, const QTime &time);
 
-signals:
-    void taskAdded(const QString &person, const QString &title, const QString &description, const QString &dueDate, const QString &startTime, const QString &time);
+    signals:
+        void taskAdded(const QString &person, const QString &title, const QString &description, const QString &dueDate, const QString &startTime, const QString &time);
 
 private:
     Database database;

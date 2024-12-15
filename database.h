@@ -10,7 +10,6 @@
 #include <QVariant>
 #include <QSqlError>
 
-
 void initializeDatabase();
 
 // Struktura Task, zawierająca kolumny z bazy danych
@@ -26,7 +25,7 @@ struct Task {
 };
 
 class Database {
-public:
+    public:
     QTime getTaskStartTimeForDate(const QDate &date, const QString &title);
     static bool addTask(const QString &person, const QString &title, const QString &description, const QString &due_date, const QString &start_time, const QString &time);
 

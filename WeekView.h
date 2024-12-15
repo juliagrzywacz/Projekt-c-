@@ -14,13 +14,13 @@
 #include "database.h"
 
 class WeekView : public QWidget {
-Q_OBJECT
+    Q_OBJECT
 
-public:
+    public:
     explicit WeekView(Database &db, QWidget *parent = nullptr);
 
-private slots:
-    void showPreviousWeek();
+    private slots:
+        void showPreviousWeek();
     void showNextWeek();
     void openCalendar();
     void onDateSelected(const QDate &date);

@@ -5,7 +5,6 @@
 #include <QDebug>
 #include <QVariant>
 
-
 void initializeDatabase() {
     // Tworzenie połączenia z bazą danych SQLite
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
@@ -67,12 +66,10 @@ QTime Database::getTaskStartTimeForDate(const QDate &date, const QString &taskTi
     if (query.next()) {
         QVariant timeValue = query.value(0);
         if (timeValue.isNull()) {
-            qDebug() << "Brak godziny rozpoczęcia dla zadania:" << taskTitle << "z datą:" << date;
             return QTime(); // Zwróć nieprawidłowy czas
         }
 
         QTime startTime = timeValue.toTime();
-        qDebug() << "Godzina rozpoczęcia dla zadania:" << taskTitle << "to:" << startTime;
         return startTime;
     }
 
@@ -94,14 +91,14 @@ QList<Task> Database::getTasksForWeek(const QDate &startOfWeek) {
     if (query.exec()) {
         while (query.next()) {
             Task task;
-            task.id = query.value("id").toInt();                 // Pobieranie id zadania
-            task.person = query.value("person").toString();       // Pobieranie osoby odpowiedzialnej
-            task.title = query.value("title").toString();         // Pobieranie tytułu
-            task.description = query.value("description").toString(); // Pobieranie opisu
-            task.dueDate = query.value("due_date").toDate();      // Pobieranie daty wykonania
-            task.startTime = query.value("start_time").toTime();  // Pobieranie godziny rozpoczęcia
-            task.time = query.value("time").toTime();             // Pobieranie czasu trwania
-            task.completed = query.value("completed").toInt();    // Pobieranie statusu ukończenia
+            task.id = query.value("id").toInt();                        // Pobieranie id zadania
+            task.person = query.value("person").toString();             // Pobieranie osoby odpowiedzialnej
+            task.title = query.value("title").toString();               // Pobieranie tytułu
+            task.description = query.value("description").toString();   // Pobieranie opisu
+            task.dueDate = query.value("due_date").toDate();            // Pobieranie daty wykonania
+            task.startTime = query.value("start_time").toTime();        // Pobieranie godziny rozpoczęcia
+            task.time = query.value("time").toTime();                   // Pobieranie czasu trwania
+            task.completed = query.value("completed").toInt();          // Pobieranie statusu ukończenia
             tasks.append(task);
         }
     } else {
