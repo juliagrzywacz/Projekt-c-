@@ -168,27 +168,85 @@ void WeekView::showTaskAddWindow(const QDate &date, const QTime &time) {
 }
 
 void WeekView::displayTasksForWeek() {
+    // Wyczyść poprzednie zadania z przycisków
+    for (int row = 0; row < layout->rowCount() - 2; ++row) { // -2, aby ominąć nagłówki
+        for (int col = 0; col < layout->columnCount() - 1; ++col) { // -1, aby ominąć godziny
+            QPushButton *button = dynamic_cast<QPushButton*>(layout->itemAtPosition(row + 2, col + 1)->widget());
+            if (button) {
+                button->setText(""); // Czyść tekst w komórkach
+                disconnect(button, nullptr, nullptr, nullptr); // Usuń wszystkie poprzednie połączenia
+
+                // Przywrócenie akcji dla pustych okienek
+                QDate cellDate = currentWeekStartDate.addDays(col);
+                QTime cellTime = QTime(6 + row * 2, 0);
+                connect(button, &QPushButton::clicked, this, [this, cellDate, cellTime]() {
+                    showTaskAddWindow(cellDate, cellTime); // Otwórz okno dodawania zadania
+                });
+            }
+        }
+    }
+
     // Pobierz zadania dla bieżącego tygodnia
     QList<Task> tasks = database.getTasksForWeek(currentWeekStartDate);
 
     // Przypisz zadania do odpowiednich komórek
     for (const Task &task : tasks) {
         // Określenie, która komórka odpowiada za ten dzień i godzinę
-        int dayIndex = currentWeekStartDate.daysTo(task.dueDate);
+        int dayIndex = currentWeekStartDate.daysTo(task.dueDate); // Kolumna na podstawie dnia
         if (dayIndex < 0 || dayIndex >= 7) {
             continue; // Pomijamy zadania, które nie pasują do tego tygodnia
         }
 
-        // Określ, w której komórce (w której godzinie) zadanie ma się pojawić
+        // Określ wiersz w siatce na podstawie godziny zadania
         int row = calculateRowForTime(task.dueDate, QPair<QString, QString>(task.time.toString(), task.title));
+        if (row < 0) {
+            continue; // Pomijamy zadania poza zakresem godzin
+        }
 
-        // Dodaj zadanie do odpowiedniego przycisku
-        QPushButton *button = dynamic_cast<QPushButton*>(layout->itemAtPosition(row, dayIndex)->widget());
+        // Znajdź odpowiedni przycisk w siatce
+        QPushButton *button = dynamic_cast<QPushButton*>(layout->itemAtPosition(row + 2, dayIndex + 1)->widget());
         if (button) {
-            button->setText(button->text() + task.person + "\n" + task.title);
+            // Dodaj informacje o osobie odpowiedzialnej i tytule zadania
+            QString taskText = QString("%1\n%2") // Osoba i tytuł w dwóch liniach
+                    .arg(task.person) // Imię osoby
+                    .arg(task.title); // Tytuł zadania
+
+            // Jeżeli już jest tekst, dodaj nową linię
+            if (!button->text().isEmpty()) {
+                taskText = button->text() + "\n" + taskText;
+            }
+
+            button->setText(taskText);
+
+            // Dodaj opcję usuwania zadania po kliknięciu
+            connect(button, &QPushButton::clicked, this, [this, task, button]() {
+                QMessageBox::StandardButton reply = QMessageBox::question(
+                        this, "Usuń zadanie",
+                        QString("Czy na pewno chcesz usunąć to zadanie: \"%1\"?\nOsoba: %2")
+                                .arg(task.title)
+                                .arg(task.person),
+                        QMessageBox::Yes | QMessageBox::No
+                );
+
+                if (reply == QMessageBox::Yes) {
+                    // Usuń zadanie z bazy danych
+                    if (database.removeTask(task.dueDate, task.title)) {
+                        QMessageBox::information(this, "Sukces", "Zadanie zostało usunięte.");
+                        button->setText(""); // Wyczyść tekst z komórki
+                    } else {
+                        QMessageBox::warning(this, "Błąd", "Nie udało się usunąć zadania z bazy danych.");
+                    }
+
+                    // Odśwież widok kalendarza
+                    updateCalendar();
+                }
+            });
         }
     }
 }
+
+
+
 
 // Funkcja pomocnicza do obliczenia wiersza siatki na podstawie godziny zadania
 int WeekView::calculateRowForTime(const QDate &date, const QPair<QString, QString> &task) {

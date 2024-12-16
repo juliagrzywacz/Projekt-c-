@@ -107,3 +107,12 @@ QList<Task> Database::getTasksForWeek(const QDate &startOfWeek) {
 
     return tasks;
 }
+
+bool Database::removeTask(const QDate &date, const QString &title) {
+    // Usuwanie zadania z bazy danych na podstawie daty i tytułu
+    QSqlQuery query;
+    query.prepare("DELETE FROM tasks WHERE due_date = :date AND title = :title");
+    query.bindValue(":date", date.toString("yyyy-MM-dd"));
+    query.bindValue(":title", title);
+    return query.exec();
+}

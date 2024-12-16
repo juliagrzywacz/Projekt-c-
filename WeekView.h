@@ -10,6 +10,7 @@
 #include <QVBoxLayout>
 #include <QMap>
 #include <QPair>
+#include <QMessageBox>
 #include "TaskWindow.h"
 #include "database.h"
 

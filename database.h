@@ -30,6 +30,7 @@ class Database {
     static bool addTask(const QString &person, const QString &title, const QString &description, const QString &due_date, const QString &start_time, const QString &time);
 
     QList<Task> getTasksForWeek(const QDate &startOfWeek);
+    bool removeTask(const QDate &date, const QString &title);
 
 };
 
