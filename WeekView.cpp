@@ -9,6 +9,7 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
     // Ustawienie bieżącego tygodnia na poniedziałek aktualnego tygodnia
     currentWeekStartDate = QDate::currentDate().addDays(-QDate::currentDate().dayOfWeek() + 1);
 
+
     // Przyciski do zmiany tygodnia
     QPushButton *prevWeekButton = new QPushButton("Poprzedni tydzień", this);
     QPushButton *nextWeekButton = new QPushButton("Następny tydzień", this);
@@ -79,6 +80,7 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
     setLayout(mainLayout);
 
     updateCalendar();
+
 }
 
 void WeekView::showPreviousWeek() {
@@ -111,12 +113,12 @@ void WeekView::updateCalendar() {
             if (button) {
                 button->setText("");  // Usunięcie tekstu z przycisku (czyli czyszczenie zadań)
 
-                // Oblicz datę i czas dla tej komórki
+               /* // Oblicz datę i czas dla tej komórki
                 QDate cellDate = currentWeekStartDate.addDays(col-1);  // Kolumna to dzień tygodnia
                 QTime cellTime = QTime(6 + ((row - 2) * 2), 0);              // Wiersz to godzina (np. 06:00 + 2h na wiersz)
 
                 // Zapisz datę i godzinę w mapie
-                cellDateTimeMap[button] = qMakePair(cellDate, cellTime);
+                cellDateTimeMap[button] = qMakePair(cellDate, cellTime);*/
             }
         }
     }
@@ -173,9 +175,10 @@ void WeekView::displayTasksForWeek() {
 
     // Przypisz zadania do odpowiednich komórek
     for (const Task &task : tasks) {
+        qDebug() << "Task title: " << task.title << ", Due date: " << task.dueDate;
         // Określenie, która komórka odpowiada za ten dzień i godzinę
-        int dayIndex = currentWeekStartDate.daysTo(task.dueDate);
-        if (dayIndex < 0 || dayIndex >= 7) {
+        int dayIndex = task.dueDate.dayOfWeek();
+        if (dayIndex < 1 || dayIndex > 7) {
             continue; // Pomijamy zadania, które nie pasują do tego tygodnia
         }
 
@@ -186,8 +189,11 @@ void WeekView::displayTasksForWeek() {
         QPushButton *button = dynamic_cast<QPushButton*>(layout->itemAtPosition(row, dayIndex)->widget());
         if (button) {
             button->setText(button->text() + task.person + "\n" + task.title);
+            qDebug() << "Day index: " << dayIndex << " Row: " << row;
+
         }
     }
+
 }
 
 // Funkcja pomocnicza do obliczenia wiersza siatki na podstawie godziny zadania

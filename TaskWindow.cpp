@@ -83,6 +83,7 @@ void TaskAddWindow::saveTask() {
     QString title = taskTitleEdit->text();
     QString description = taskDescriptionEdit->text();
     QString dueDate = taskDueDateEdit->date().toString("yyyy-MM-dd");
+    qDebug() << dueDate;
     QString startTime = taskStartTimeEdit->time().toString("HH:mm");
     QString time = taskTimeEdit->time().toString("HH:mm");
 
