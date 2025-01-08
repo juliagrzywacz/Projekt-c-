@@ -107,3 +107,17 @@ QList<Task> Database::getTasksForWeek(const QDate &startOfWeek) {
 
     return tasks;
 }
+
+bool Database::deleteTask(int taskId) {
+    QSqlQuery query;
+    query.prepare("DELETE FROM tasks WHERE id = :id");
+    query.bindValue(":id", taskId);
+
+    if (!query.exec()) {
+        qDebug() << "Błąd podczas usuwania zadania:" << query.lastError().text();
+        return false;
+    }
+
+    qDebug() << "Zadanie o ID" << taskId << "zostało usunięte!";
+    return true;
+}

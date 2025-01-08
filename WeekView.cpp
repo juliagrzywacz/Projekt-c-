@@ -189,7 +189,7 @@ void WeekView::displayTasksForWeek() {
         QPushButton *button = dynamic_cast<QPushButton*>(layout->itemAtPosition(row, dayIndex)->widget());
         if (button) {
             button->setText(button->text() + task.person + "\n" + task.title);
-            qDebug() << "Day index: " << dayIndex << " Row: " << row;
+
 
         }
     }

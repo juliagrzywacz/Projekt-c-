@@ -31,6 +31,8 @@ class Database {
 
     QList<Task> getTasksForWeek(const QDate &startOfWeek);
 
+    bool deleteTask(int taskId);
+
 };
 
 #endif // DATABASE_H
