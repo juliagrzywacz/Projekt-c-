@@ -32,6 +32,8 @@ class Database {
     QList<Task> getTasksForWeek(const QDate &startOfWeek);
 
     bool deleteTask(int taskId);
+    bool updateTask(int taskId, const QString &person, const QString &title, const QString &description, const QString &dueDate, const QString &startTime, const QString &time, int completed);
+
 
 };
 

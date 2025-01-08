@@ -121,3 +121,33 @@ bool Database::deleteTask(int taskId) {
     qDebug() << "Zadanie o ID" << taskId << "zostało usunięte!";
     return true;
 }
+
+bool Database::updateTask(int taskId, const QString &person, const QString &title, const QString &description, const QString &dueDate, const QString &startTime, const QString &time, int completed) {
+    QSqlQuery query;
+    query.prepare("UPDATE tasks SET "
+                  "person = :person, "
+                  "title = :title, "
+                  "description = :description, "
+                  "due_date = :dueDate, "
+                  "start_time = :startTime, "
+                  "time = :time, "
+                  "completed = :completed "
+                  "WHERE id = :taskId");
+    query.bindValue(":person", person);
+    query.bindValue(":title", title);
+    query.bindValue(":description", description);
+    query.bindValue(":dueDate", dueDate);
+    query.bindValue(":startTime", startTime);
+    query.bindValue(":time", time);
+    query.bindValue(":completed", completed);
+    query.bindValue(":taskId", taskId);
+
+    if (!query.exec()) {
+        qDebug() << "Błąd podczas edycji zadania:" << query.lastError().text();
+        return false;
+    }
+
+    qDebug() << "Zadanie o ID" << taskId << "zostało zaktualizowane!";
+    return true;
+}
+
