@@ -47,7 +47,7 @@ cmake_ninja_workdir = D$:/studia/semestr$ III/projekt$ c++/App/cmake-build-debug
 #############################################
 # Order-only phony target for App
 
-build cmake_object_order_depends_target_App: phony || moc_TaskWindow.cpp moc_WeekView.cpp moc_database.cpp
+build cmake_object_order_depends_target_App: phony || moc_TaskEditWindow.cpp moc_TaskWindow.cpp moc_WeekView.cpp moc_database.cpp
 
 build CMakeFiles/App.dir/main.cpp.obj: CXX_COMPILER__App_unscanned_Debug D$:/studia/semestr$ III/projekt$ c++/App/main.cpp || cmake_object_order_depends_target_App
   DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
@@ -81,6 +81,14 @@ build CMakeFiles/App.dir/TaskWindow.cpp.obj: CXX_COMPILER__App_unscanned_Debug D
   OBJECT_DIR = CMakeFiles\App.dir
   OBJECT_FILE_DIR = CMakeFiles\App.dir
 
+build CMakeFiles/App.dir/TaskEditWindow.cpp.obj: CXX_COMPILER__App_unscanned_Debug D$:/studia/semestr$ III/projekt$ c++/App/TaskEditWindow.cpp || cmake_object_order_depends_target_App
+  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
+  DEP_FILE = CMakeFiles\App.dir\TaskEditWindow.cpp.obj.d
+  FLAGS = -g -std=gnu++17 -fdiagnostics-color=always
+  INCLUDES = -isystem C:/Qt/6.7.1/mingw_64/include/QtCore -isystem C:/Qt/6.7.1/mingw_64/include -isystem C:/Qt/6.7.1/mingw_64/mkspecs/win32-g++ -isystem C:/Qt/6.7.1/mingw_64/include/QtWidgets -isystem C:/Qt/6.7.1/mingw_64/include/QtGui -isystem C:/Qt/6.7.1/mingw_64/include/QtSql
+  OBJECT_DIR = CMakeFiles\App.dir
+  OBJECT_FILE_DIR = CMakeFiles\App.dir
+
 build CMakeFiles/App.dir/moc_WeekView.cpp.obj: CXX_COMPILER__App_unscanned_Debug D$:/studia/semestr$ III/projekt$ c++/App/cmake-build-debug/moc_WeekView.cpp || cmake_object_order_depends_target_App
   DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
   DEP_FILE = CMakeFiles\App.dir\moc_WeekView.cpp.obj.d
@@ -105,6 +113,14 @@ build CMakeFiles/App.dir/moc_TaskWindow.cpp.obj: CXX_COMPILER__App_unscanned_Deb
   OBJECT_DIR = CMakeFiles\App.dir
   OBJECT_FILE_DIR = CMakeFiles\App.dir
 
+build CMakeFiles/App.dir/moc_TaskEditWindow.cpp.obj: CXX_COMPILER__App_unscanned_Debug D$:/studia/semestr$ III/projekt$ c++/App/cmake-build-debug/moc_TaskEditWindow.cpp || cmake_object_order_depends_target_App
+  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
+  DEP_FILE = CMakeFiles\App.dir\moc_TaskEditWindow.cpp.obj.d
+  FLAGS = -g -std=gnu++17 -fdiagnostics-color=always
+  INCLUDES = -isystem C:/Qt/6.7.1/mingw_64/include/QtCore -isystem C:/Qt/6.7.1/mingw_64/include -isystem C:/Qt/6.7.1/mingw_64/mkspecs/win32-g++ -isystem C:/Qt/6.7.1/mingw_64/include/QtWidgets -isystem C:/Qt/6.7.1/mingw_64/include/QtGui -isystem C:/Qt/6.7.1/mingw_64/include/QtSql
+  OBJECT_DIR = CMakeFiles\App.dir
+  OBJECT_FILE_DIR = CMakeFiles\App.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target App
@@ -113,7 +129,7 @@ build CMakeFiles/App.dir/moc_TaskWindow.cpp.obj: CXX_COMPILER__App_unscanned_Deb
 #############################################
 # Link the executable App.exe
 
-build App.exe: CXX_EXECUTABLE_LINKER__App_Debug CMakeFiles/App.dir/main.cpp.obj CMakeFiles/App.dir/WeekView.cpp.obj CMakeFiles/App.dir/database.cpp.obj CMakeFiles/App.dir/TaskWindow.cpp.obj CMakeFiles/App.dir/moc_WeekView.cpp.obj CMakeFiles/App.dir/moc_database.cpp.obj CMakeFiles/App.dir/moc_TaskWindow.cpp.obj | C$:/Qt/6.7.1/mingw_64/lib/libQt6Widgets.a C$:/Qt/6.7.1/mingw_64/lib/libQt6Sql.a C$:/Qt/6.7.1/mingw_64/lib/libQt6Gui.a C$:/Qt/6.7.1/mingw_64/lib/libQt6Core.a
+build App.exe: CXX_EXECUTABLE_LINKER__App_Debug CMakeFiles/App.dir/main.cpp.obj CMakeFiles/App.dir/WeekView.cpp.obj CMakeFiles/App.dir/database.cpp.obj CMakeFiles/App.dir/TaskWindow.cpp.obj CMakeFiles/App.dir/TaskEditWindow.cpp.obj CMakeFiles/App.dir/moc_WeekView.cpp.obj CMakeFiles/App.dir/moc_database.cpp.obj CMakeFiles/App.dir/moc_TaskWindow.cpp.obj CMakeFiles/App.dir/moc_TaskEditWindow.cpp.obj | C$:/Qt/6.7.1/mingw_64/lib/libQt6Widgets.a C$:/Qt/6.7.1/mingw_64/lib/libQt6Sql.a C$:/Qt/6.7.1/mingw_64/lib/libQt6Gui.a C$:/Qt/6.7.1/mingw_64/lib/libQt6Core.a
   FLAGS = -g
   LINK_LIBRARIES = C:/Qt/6.7.1/mingw_64/lib/libQt6Widgets.a  C:/Qt/6.7.1/mingw_64/lib/libQt6Sql.a  C:/Qt/6.7.1/mingw_64/lib/libQt6Gui.a  -ld3d11  -ldxgi  -ldxguid  -ld3d12  C:/Qt/6.7.1/mingw_64/lib/libQt6Core.a  -lmpr  -luserenv  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\App.dir
@@ -171,6 +187,15 @@ build moc_database.cpp | ${cmake_ninja_workdir}moc_database.cpp: CUSTOM_COMMAND 
 build moc_TaskWindow.cpp | ${cmake_ninja_workdir}moc_TaskWindow.cpp: CUSTOM_COMMAND D$:/studia/semestr$ III/projekt$ c++/App/TaskWindow.h
   COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D "D:\studia\semestr III\projekt c++\App\cmake-build-debug" && C:\Qt\6.7.1\mingw_64\.\bin\moc.exe "@D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_TaskWindow.cpp_parameters""
   DESC = Generating moc_TaskWindow.cpp
+  restat = 1
+
+
+#############################################
+# Custom command for moc_TaskEditWindow.cpp
+
+build moc_TaskEditWindow.cpp | ${cmake_ninja_workdir}moc_TaskEditWindow.cpp: CUSTOM_COMMAND D$:/studia/semestr$ III/projekt$ c++/App/TaskEditWindow.h
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D "D:\studia\semestr III\projekt c++\App\cmake-build-debug" && C:\Qt\6.7.1\mingw_64\.\bin\moc.exe "@D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_TaskEditWindow.cpp_parameters""
+  DESC = Generating moc_TaskEditWindow.cpp
   restat = 1
 
 # =============================================================================

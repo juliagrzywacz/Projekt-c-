@@ -2,6 +2,7 @@
 #include <QMainWindow>
 #include "WeekView.h"
 #include "database.h"
+#include "TaskEditWindow.h"
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
@@ -20,6 +21,7 @@ int main(int argc, char *argv[]) {
     mainWindow.setWindowTitle("Kalendarz Tygodniowy");
     mainWindow.resize(800, 600);
     mainWindow.show();
+
 
 
     return a.exec();

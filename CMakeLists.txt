@@ -18,6 +18,7 @@ set(SOURCES
         WeekView.cpp
         database.cpp
         TaskWindow.cpp
+        TaskEditWindow.cpp
 
 )
 
@@ -26,6 +27,7 @@ set(HEADERS
         WeekView.h
         database.h
         TaskWindow.h
+        TaskEditWindow.h
 )
 
 # Generowanie plików MOC (Meta-Object Compiler)
