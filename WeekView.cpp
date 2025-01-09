@@ -68,10 +68,16 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
             // Zapisz datę i godzinę w mapie
             cellDateTimeMap[cell] = qMakePair(cellDate, cellTime);
 
-            // Po kliknięciu otwórz okno dodawania zadania z odpowiednią datą i godziną
+            // Po kliknięciu otwórz okno dodawania zadania lub edycji
             connect(cell, &QPushButton::clicked, this, [this, cell]() {
-                QPair<QDate, QTime> dateTime = cellDateTimeMap[cell];
-                showTaskAddWindow(dateTime.first, dateTime.second);
+                QVariant taskIdVariant = cell->property("taskId");
+                if (taskIdVariant.isValid()) {
+                    int taskId = taskIdVariant.toInt();
+                    showTaskEditWindow(taskId);
+                } else {
+                    QPair<QDate, QTime> dateTime = cellDateTimeMap[cell];
+                    showTaskAddWindow(dateTime.first, dateTime.second);
+                }
             });
         }
     }
@@ -169,13 +175,19 @@ void WeekView::showTaskAddWindow(const QDate &date, const QTime &time) {
     taskAddWindow->activateWindow();
 }
 
+void WeekView::showTaskEditWindow(int taskId) {
+    TaskEditWindow *editWindow = new TaskEditWindow(database, taskId, this);
+    connect(editWindow, &TaskEditWindow::taskUpdated, this, &WeekView::updateCalendar);
+    connect(editWindow, &TaskEditWindow::taskDeleted, this, &WeekView::updateCalendar);
+    editWindow->show();
+}
+
 void WeekView::displayTasksForWeek() {
     // Pobierz zadania dla bieżącego tygodnia
     QList<Task> tasks = database.getTasksForWeek(currentWeekStartDate);
 
     // Przypisz zadania do odpowiednich komórek
     for (const Task &task : tasks) {
-        qDebug() << "Task title: " << task.title << ", Due date: " << task.dueDate;
         // Określenie, która komórka odpowiada za ten dzień i godzinę
         int dayIndex = task.dueDate.dayOfWeek();
         if (dayIndex < 1 || dayIndex > 7) {
@@ -189,7 +201,7 @@ void WeekView::displayTasksForWeek() {
         QPushButton *button = dynamic_cast<QPushButton*>(layout->itemAtPosition(row, dayIndex)->widget());
         if (button) {
             button->setText(button->text() + task.person + "\n" + task.title);
-
+            button->setProperty("taskId", task.id);
 
         }
     }

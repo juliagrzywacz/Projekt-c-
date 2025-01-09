@@ -106,6 +106,7 @@ void TaskEditWindow::saveTask() {
 
     if (database.updateTask(taskId, person, title, description, dueDate, startTime, time, 0)) {
         QMessageBox::information(this, "Sukces", "Zadanie zostało zaktualizowane.");
+        emit taskUpdated(taskId);
         close();
     } else {
         QMessageBox::warning(this, "Błąd", "Nie udało się zaktualizować zadania.");
@@ -115,6 +116,7 @@ void TaskEditWindow::saveTask() {
 void TaskEditWindow::deleteTask() {
     if (database.deleteTask(taskId)) {
         QMessageBox::information(this, "Sukces", "Zadanie zostało usunięte.");
+        emit taskDeleted(taskId);
         close();
     } else {
         QMessageBox::warning(this, "Błąd", "Nie udało się usunąć zadania.");

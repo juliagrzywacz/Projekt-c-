@@ -12,6 +12,7 @@
 #include <QPair>
 #include "TaskWindow.h"
 #include "database.h"
+#include "TaskEditWindow.h"
 
 class WeekView : public QWidget {
     Q_OBJECT
@@ -20,11 +21,12 @@ class WeekView : public QWidget {
     explicit WeekView(Database &db, QWidget *parent = nullptr);
 
     private slots:
-        void showPreviousWeek();
+    void showPreviousWeek();
     void showNextWeek();
     void openCalendar();
     void onDateSelected(const QDate &date);
     void showTaskAddWindow(const QDate &date, const QTime &time);
+    void showTaskEditWindow(int taskId);
 
 private:
     Database &database;

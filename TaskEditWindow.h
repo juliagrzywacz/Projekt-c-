@@ -19,6 +19,11 @@ public:
     explicit TaskEditWindow(Database& database, int taskId, QWidget *parent = nullptr);
     void setTaskDetails(int taskId);
 
+    signals:
+        void taskUpdated(int taskId);
+        void taskDeleted(int taskId);
+
+
 private slots:
     void saveTask();
     void deleteTask();
