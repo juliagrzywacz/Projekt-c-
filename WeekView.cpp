@@ -3,7 +3,12 @@
 #include "database.h"
 #include <QGridLayout>
 
-WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWindow(nullptr), database(db)  {
+
+WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWindow(nullptr), database(db) {
+    pastelColors = {
+            "#FFB3BA", "#FFDFBA", "#FFFFBA", "#BAFFC9", "#BAE1FF",
+            "#D7BAFF", "#FFC4E1", "#C4FFF9", "#E2FFBA", "#FFE4BA"
+    };
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
 
     // Ustawienie bieżącego tygodnia na poniedziałek aktualnego tygodnia
@@ -127,19 +132,15 @@ void WeekView::onDateSelected(const QDate &date) {
 }
 
 void WeekView::updateCalendar() {
+    personColorMap.clear();
     // Czyszczenie widoku zadań, żeby nie wyświetlały się z innych tygodni
     for (int row = 2; row < layout->rowCount(); ++row) {
         for (int col = 1; col < layout->columnCount(); ++col) {
             QPushButton *button = dynamic_cast<QPushButton*>(layout->itemAtPosition(row, col)->widget());
             if (button) {
                 button->setText("");  // Usunięcie tekstu z przycisku (czyli czyszczenie zadań)
-
-               /* // Oblicz datę i czas dla tej komórki
-                QDate cellDate = currentWeekStartDate.addDays(col-1);  // Kolumna to dzień tygodnia
-                QTime cellTime = QTime(6 + ((row - 2) * 2), 0);              // Wiersz to godzina (np. 06:00 + 2h na wiersz)
-
-                // Zapisz datę i godzinę w mapie
-                cellDateTimeMap[button] = qMakePair(cellDate, cellTime);*/
+                button->setStyleSheet("");
+                button->setProperty("taskId", QVariant());
             }
         }
     }
@@ -215,6 +216,8 @@ void WeekView::displayTasksForWeek() {
         // Dodaj zadanie do odpowiedniego przycisku
         QPushButton *button = dynamic_cast<QPushButton*>(layout->itemAtPosition(row, dayIndex)->widget());
         if (button) {
+            QString personColor = getColorForPerson(task.person);
+            button->setStyleSheet(QString("background-color: %1;").arg(personColor));
             button->setText(button->text() + task.person + "\n" + task.title);
             button->setProperty("taskId", task.id);
 
@@ -249,4 +252,15 @@ void WeekView::openAddTaskWindowWithCurrentDateTime() {
     QDate currentDate = QDate::currentDate();
     QTime currentTime = QTime::currentTime();
     showTaskAddWindow(currentDate, currentTime);
+}
+
+QString WeekView::getColorForPerson(const QString &person) {
+    if (!personColorMap.contains(person)) {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> dis(0, pastelColors.size() - 1);
+        int colorIndex = dis(gen); // Lepsze losowanie
+        personColorMap[person] = pastelColors[colorIndex];
+    }
+    return personColorMap[person];
 }

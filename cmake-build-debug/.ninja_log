@@ -47,3 +47,45 @@
 114	2952	7584205798816797	CMakeFiles/App.dir/moc_WeekView.cpp.obj	ee9fa12b048fc002
 108	3332	7584205802544584	CMakeFiles/App.dir/WeekView.cpp.obj	fb02a9cc500bd432
 3333	3817	7584205807380351	App.exe	22af8433d48e9083
+45	99	7584215691399443	moc_WeekView.cpp	1fe2df81f9237a7
+45	99	7584215691399443	D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_WeekView.cpp	1fe2df81f9237a7
+99	3070	7584215721085149	CMakeFiles/App.dir/main.cpp.obj	f5a8a09143fe9dbd
+110	3118	7584215721576019	CMakeFiles/App.dir/moc_WeekView.cpp.obj	ee9fa12b048fc002
+28	81	7584217945795958	moc_WeekView.cpp	1fe2df81f9237a7
+28	81	7584217945795958	D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_WeekView.cpp	1fe2df81f9237a7
+81	2917	7584217974143882	CMakeFiles/App.dir/main.cpp.obj	f5a8a09143fe9dbd
+92	3043	7584217975332538	CMakeFiles/App.dir/moc_WeekView.cpp.obj	ee9fa12b048fc002
+47	102	7584218112006898	moc_WeekView.cpp	1fe2df81f9237a7
+47	102	7584218112006898	D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_WeekView.cpp	1fe2df81f9237a7
+102	2879	7584218139769212	CMakeFiles/App.dir/main.cpp.obj	f5a8a09143fe9dbd
+114	2936	7584218140337692	CMakeFiles/App.dir/moc_WeekView.cpp.obj	ee9fa12b048fc002
+53	107	7584219440949974	moc_WeekView.cpp	1fe2df81f9237a7
+53	107	7584219440949974	D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_WeekView.cpp	1fe2df81f9237a7
+108	3024	7584219470092530	CMakeFiles/App.dir/main.cpp.obj	f5a8a09143fe9dbd
+118	3076	7584219470618438	CMakeFiles/App.dir/moc_WeekView.cpp.obj	ee9fa12b048fc002
+112	3615	7584219475992618	CMakeFiles/App.dir/WeekView.cpp.obj	fb02a9cc500bd432
+3615	4219	7584219481966909	App.exe	22af8433d48e9083
+26	3213	7584220734418974	CMakeFiles/App.dir/WeekView.cpp.obj	fb02a9cc500bd432
+3213	3823	7584220740469867	App.exe	22af8433d48e9083
+48	3097	7584222281547965	CMakeFiles/App.dir/WeekView.cpp.obj	fb02a9cc500bd432
+3097	3673	7584222287408242	App.exe	22af8433d48e9083
+26	80	7584228912323858	moc_TaskWindow.cpp	3dd46f5222cbd2e7
+26	80	7584228912323858	D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_TaskWindow.cpp	3dd46f5222cbd2e7
+110	4025	7584228951534456	CMakeFiles/App.dir/moc_TaskWindow.cpp.obj	aa40883990fbbd02
+94	4104	7584228952491198	CMakeFiles/App.dir/TaskWindow.cpp.obj	d5ae1c09d8b3bf5e
+80	4185	7584228953336451	CMakeFiles/App.dir/main.cpp.obj	f5a8a09143fe9dbd
+102	4358	7584228955064710	CMakeFiles/App.dir/moc_WeekView.cpp.obj	ee9fa12b048fc002
+38	109	7584229787573209	moc_TaskWindow.cpp	3dd46f5222cbd2e7
+38	109	7584229787573209	D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_TaskWindow.cpp	3dd46f5222cbd2e7
+28	113	7584229787623212	moc_WeekView.cpp	1fe2df81f9237a7
+28	113	7584229787623212	D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_WeekView.cpp	1fe2df81f9237a7
+141	3969	7584229826124113	CMakeFiles/App.dir/moc_TaskWindow.cpp.obj	aa40883990fbbd02
+126	4090	7584229827372198	CMakeFiles/App.dir/TaskWindow.cpp.obj	d5ae1c09d8b3bf5e
+113	4184	7584229828332545	CMakeFiles/App.dir/main.cpp.obj	f5a8a09143fe9dbd
+133	4347	7584229829961552	CMakeFiles/App.dir/moc_WeekView.cpp.obj	ee9fa12b048fc002
+120	4922	7584229835689237	CMakeFiles/App.dir/WeekView.cpp.obj	fb02a9cc500bd432
+4922	5623	7584229842661807	App.exe	22af8433d48e9083
+26	3189	7584233143389680	CMakeFiles/App.dir/WeekView.cpp.obj	fb02a9cc500bd432
+3190	3819	7584233149668540	App.exe	22af8433d48e9083
+58	3222	7584234290918278	CMakeFiles/App.dir/WeekView.cpp.obj	fb02a9cc500bd432
+3223	3852	7584234297169343	App.exe	22af8433d48e9083

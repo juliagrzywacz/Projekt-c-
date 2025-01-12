@@ -33,6 +33,7 @@ private:
     QPushButton *saveButton;
     QPushButton *cancelButton;
 
+
 private slots:
     void saveTask();
 };

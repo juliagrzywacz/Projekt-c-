@@ -13,6 +13,9 @@
 #include "TaskWindow.h"
 #include "database.h"
 #include "TaskEditWindow.h"
+#include <random>
+#include <cstdlib>
+
 
 class WeekView : public QWidget {
     Q_OBJECT
@@ -34,6 +37,8 @@ private:
     void updateCalendar();
     int calculateRowForTime(const QDate &date, const QPair<QString, QString> &task);
     void displayTasksForWeek();
+    QString getColorForPerson(const QString &person);
+
 
     QGridLayout *layout;
     QLabel *dayLabels[7];
@@ -41,6 +46,9 @@ private:
     QPushButton *dateRangeButton;
     QCalendarWidget *calendarWidget;
     QMap<QPushButton*, QPair<QDate, QTime>> cellDateTimeMap;
+    QMap<QString, QString> personColorMap;
+    QStringList pastelColors;
+    QStringList days;
 
     TaskAddWindow *taskAddWindow;  // Okno dodawania zadań
 };
