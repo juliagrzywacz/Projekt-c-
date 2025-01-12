@@ -27,6 +27,7 @@ class WeekView : public QWidget {
     void onDateSelected(const QDate &date);
     void showTaskAddWindow(const QDate &date, const QTime &time);
     void showTaskEditWindow(int taskId);
+    void openAddTaskWindowWithCurrentDateTime();
 
 private:
     Database &database;

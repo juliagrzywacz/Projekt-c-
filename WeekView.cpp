@@ -9,12 +9,27 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
     // Ustawienie bieżącego tygodnia na poniedziałek aktualnego tygodnia
     currentWeekStartDate = QDate::currentDate().addDays(-QDate::currentDate().dayOfWeek() + 1);
 
+    // Przycisk z plusikiem do dodawania zadania
+    QPushButton *addTaskButton = new QPushButton("+", this);
+    addTaskButton->setFixedSize(30, 30);
+    mainLayout->addWidget(addTaskButton, 0, Qt::AlignLeft);
+
+    connect(addTaskButton, &QPushButton::clicked, this, &WeekView::openAddTaskWindowWithCurrentDateTime);
 
     // Przyciski do zmiany tygodnia
     QPushButton *prevWeekButton = new QPushButton("Poprzedni tydzień", this);
     QPushButton *nextWeekButton = new QPushButton("Następny tydzień", this);
     connect(prevWeekButton, &QPushButton::clicked, this, &WeekView::showPreviousWeek);
     connect(nextWeekButton, &QPushButton::clicked, this, &WeekView::showNextWeek);
+
+    // Układ dla przycisków nawigacyjnych
+    QHBoxLayout *topLayout = new QHBoxLayout();
+    topLayout->addWidget(addTaskButton);
+    topLayout->addStretch();
+    topLayout->addWidget(prevWeekButton);
+    topLayout->addWidget(nextWeekButton);
+
+    mainLayout->addLayout(topLayout);
 
     // Przycisk wyświetlający zakres dat dla bieżącego tygodnia
     dateRangeButton = new QPushButton(this);
@@ -228,4 +243,10 @@ int WeekView::calculateRowForTime(const QDate &date, const QPair<QString, QStrin
     // Mapowanie godzin na wiersze siatki
     int row = (hour - 6) / 2 + 2; // Dodaj +2, aby uwzględnić nagłówk
     return row;
+}
+
+void WeekView::openAddTaskWindowWithCurrentDateTime() {
+    QDate currentDate = QDate::currentDate();
+    QTime currentTime = QTime::currentTime();
+    showTaskAddWindow(currentDate, currentTime);
 }
