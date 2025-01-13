@@ -216,8 +216,16 @@ void WeekView::displayTasksForWeek() {
         // Dodaj zadanie do odpowiedniego przycisku
         QPushButton *button = dynamic_cast<QPushButton*>(layout->itemAtPosition(row, dayIndex)->widget());
         if (button) {
-            QString personColor = getColorForPerson(task.person);
-            button->setStyleSheet(QString("background-color: %1;").arg(personColor));
+            if (task.completed == 1) {
+                // Jeżeli zadanie jest zakończone, ustaw kolor lightgray
+                button->setStyleSheet("background-color: #f0f0f0;");
+            } else {
+                // Jeżeli zadanie nie jest zakończone, przypisz kolor na podstawie osoby
+                QString personColor = getColorForPerson(task.person);
+                button->setStyleSheet(QString("background-color: %1;").arg(personColor));
+            }
+
+            // Dodanie tekstu zadania
             button->setText(button->text() + task.person + "\n" + task.title);
             button->setProperty("taskId", task.id);
 
