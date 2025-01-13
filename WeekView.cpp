@@ -148,7 +148,19 @@ void WeekView::updateCalendar() {
     // Aktualizacja etykiet dni tygodnia z datami
     for (int i = 0; i < 7; ++i) {
         QDate dayDate = currentWeekStartDate.addDays(i);
-        dayLabels[i]->setText(dayDate.toString("yyyy-MM-dd"));
+        QString dayName;
+
+        switch (i) {
+            case 0: dayName = "Poniedziałek"; break;
+            case 1: dayName = "Wtorek"; break;
+            case 2: dayName = "Środa"; break;
+            case 3: dayName = "Czwartek"; break;
+            case 4: dayName = "Piątek"; break;
+            case 5: dayName = "Sobota"; break;
+            case 6: dayName = "Niedziela"; break;
+        }
+
+        dayLabels[i]->setText(dayName + "\n" + dayDate.toString("yyyy-MM-dd"));
     }
 
     // Aktualizacja tekstu przycisku zakresu dat
