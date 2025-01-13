@@ -108,12 +108,13 @@ void TaskEditWindow::saveTask() {
     QString time = taskTimeEdit->time().toString("HH:mm");
     int completed = completedCheckbox->isChecked() ? 1 : 0;
 
+
     if (title.isEmpty() || person.isEmpty() || dueDate.isEmpty() || time.isEmpty()) {
         QMessageBox::warning(this, "Błąd", "Nie mogą być puste.");
         return;
     }
 
-    if (database.updateTask(taskId, person, title, description, dueDate, startTime, time, 0)) {
+    if (database.updateTask(taskId, person, title, description, dueDate, startTime, time, completed)) {
         QMessageBox::information(this, "Sukces", "Zadanie zostało zaktualizowane.");
         emit taskUpdated(taskId);
         close();
