@@ -37,6 +37,10 @@ TaskEditWindow::TaskEditWindow(Database& db, int taskId, QWidget *parent)
     taskTimeEdit = new QTimeEdit(this);
     taskTimeEdit->setDisplayFormat("HH:mm");
 
+    // Dodanie checkboxa
+    completedCheckbox = new QCheckBox("Zadanie ukończone", this);
+    layout->addWidget(completedCheckbox);
+
     // Przycisk zapisz
     saveButton = new QPushButton("Zapisz", this);
     connect(saveButton, &QPushButton::clicked, this, &TaskEditWindow::saveTask);
@@ -63,6 +67,9 @@ TaskEditWindow::TaskEditWindow(Database& db, int taskId, QWidget *parent)
     layout->addWidget(new QLabel("Czas  trwania zadania:"));
     layout->addWidget(taskTimeEdit);
 
+    // Dodanie checkboxa przed przyciskami
+    layout->addWidget(completedCheckbox);
+
     // Dodanie przycisków
     QHBoxLayout *buttonLayout = new QHBoxLayout();
     buttonLayout->addWidget(saveButton);
@@ -78,7 +85,7 @@ TaskEditWindow::TaskEditWindow(Database& db, int taskId, QWidget *parent)
 
 void TaskEditWindow::setTaskDetails(int taskId) {
     QSqlQuery query;
-    query.prepare("SELECT person, title, description, due_date, start_time, time FROM tasks WHERE id = :id");
+    query.prepare("SELECT person, title, description, due_date, start_time, time, completed FROM tasks WHERE id = :id");
     query.bindValue(":id", taskId);
 
     if (query.exec() && query.next()) {
@@ -88,6 +95,7 @@ void TaskEditWindow::setTaskDetails(int taskId) {
         taskDueDateEdit->setDate(query.value("due_date").toDate());
         taskStartTimeEdit->setTime(query.value("start_time").toTime());
         taskTimeEdit->setTime(query.value("time").toTime());
+        completedCheckbox->setChecked(query.value("completed").toInt() == 1);
     }
 }
 
@@ -98,6 +106,7 @@ void TaskEditWindow::saveTask() {
     QString dueDate = taskDueDateEdit->date().toString("yyyy-MM-dd");
     QString startTime = taskStartTimeEdit->time().toString("HH:mm");
     QString time = taskTimeEdit->time().toString("HH:mm");
+    int completed = completedCheckbox->isChecked() ? 1 : 0;
 
     if (title.isEmpty() || person.isEmpty() || dueDate.isEmpty() || time.isEmpty()) {
         QMessageBox::warning(this, "Błąd", "Nie mogą być puste.");

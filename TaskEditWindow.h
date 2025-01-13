@@ -10,6 +10,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QMessageBox>
+#include <QCheckBox>
 #include "database.h"
 
 class TaskEditWindow : public QWidget {
@@ -40,6 +41,7 @@ private:
     QPushButton *saveButton;
     QPushButton *deleteButton;
     QPushButton *cancelButton;
+    QCheckBox *completedCheckbox;
 };
 
 #endif // TASKEDITWINDOW_H
