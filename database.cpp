@@ -151,3 +151,37 @@ bool Database::updateTask(int taskId, const QString &person, const QString &titl
     return true;
 }
 
+QTime Database::getTaskDuration(int taskId) {
+    QSqlQuery query;
+    query.prepare("SELECT time FROM tasks WHERE id = :id");
+    query.bindValue(":id", taskId);
+
+    // Wykonaj zapytanie
+    if (!query.exec()) {
+        qDebug() << "Błąd podczas pobierania czasu trwania zadania:" << query.lastError();
+        return QTime(); // Zwraca nieprawidłowy czas w przypadku błędu
+    }
+
+    // Sprawdź, czy znaleziono czas
+    if (query.next()) {
+        QVariant durationValue = query.value(0); // Pobierz wartość z kolumny `time`
+
+        // Upewnij się, że wartość nie jest NULL
+        if (!durationValue.isNull()) {
+            QTime duration = durationValue.toTime(); // Konwertuj na QTime
+            if (duration.isValid()) {
+                return duration; // Zwraca prawidłowy czas
+            } else {
+                qDebug() << "Czas w bazie danych jest nieprawidłowy.";
+            }
+        } else {
+            qDebug() << "Pole czasu trwania jest puste dla zadania o ID:" << taskId;
+        }
+    } else {
+        qDebug() << "Nie znaleziono zadania o ID:" << taskId;
+    }
+
+    return QTime();
+}
+
+

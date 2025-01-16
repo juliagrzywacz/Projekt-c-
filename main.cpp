@@ -2,7 +2,7 @@
 #include <QMainWindow>
 #include "WeekView.h"
 #include "database.h"
-#include "TaskEditWindow.h"
+
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
