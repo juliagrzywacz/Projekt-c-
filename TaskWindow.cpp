@@ -2,27 +2,26 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QMessageBox>
+#include "database.h"
+#include <QDebug>
+#include <QTimeEdit>
 
-TaskAddWindow::TaskAddWindow(QWidget *parent) : QWidget(parent) {
+TaskAddWindow::TaskAddWindow(Database& database, QWidget *parent) : QWidget(parent), database(database) { // Zmiana: Inicjalizacja referencji
     setWindowTitle("Dodaj zadanie");
     setFixedSize(300, 400);
     this->setStyleSheet("background-color: lightgray;");
-    // Ustawienie layoutu
+
     QVBoxLayout *layout = new QVBoxLayout(this);
 
-    // Pole tekstowe dla osoby odpowiedzialnej
     taskPersonEdit = new QLineEdit(this);
     taskPersonEdit->setPlaceholderText("Wpisz osobę odpowiedzialną");
 
-    // Pole tekstowe dla tytułu
     taskTitleEdit = new QLineEdit(this);
     taskTitleEdit->setPlaceholderText("Wpisz tytuł zadania");
 
-    // Pole tekstowe dla opisu
     taskDescriptionEdit = new QLineEdit(this);
     taskDescriptionEdit->setPlaceholderText("Wpisz opis zadania");
 
-    // Widget do wyboru daty
     taskDueDateEdit = new QDateEdit(this);
     if (!taskDueDateEdit) {
         qDebug() << "taskDueDateEdit nie został poprawnie zainicjalizowany!";
@@ -30,23 +29,20 @@ TaskAddWindow::TaskAddWindow(QWidget *parent) : QWidget(parent) {
     taskDueDateEdit->setDisplayFormat("yyyy-MM-dd");
     taskDueDateEdit->setCalendarPopup(true);
 
-    // Widget do wyboru czasu rozpoczecia zadania
-    taskStartTimeEdit = new QTimeEdit(this);  // Domyślnie ustawia bieżący czas
+    taskStartTimeEdit = new QTimeEdit(this);
     taskStartTimeEdit->setDisplayFormat("HH:mm");
 
-    // Widget do wyboru czasu
-    taskTimeEdit = new QTimeEdit(this);  // Domyślnie ustawia bieżący czas
+    taskTimeEdit = new QTimeEdit(this);
     taskTimeEdit->setDisplayFormat("HH:mm");
+    //taskTimeEdit->setTimeStep(15);
+    //taskTimeEdit->setSingleStep(900);
 
-    // Przycisk zapisz
     saveButton = new QPushButton("Zapisz", this);
     connect(saveButton, &QPushButton::clicked, this, &TaskAddWindow::saveTask);
 
-    // Przycisk anuluj
     cancelButton = new QPushButton("Anuluj", this);
     connect(cancelButton, &QPushButton::clicked, this, &TaskAddWindow::close);
 
-    // Dodanie widgetów do layoutu
     layout->addWidget(new QLabel("Osoba odpowiedzialna za:"));
     layout->addWidget(taskPersonEdit);
     layout->addWidget(new QLabel("Tytuł zadania:"));
@@ -57,10 +53,9 @@ TaskAddWindow::TaskAddWindow(QWidget *parent) : QWidget(parent) {
     layout->addWidget(taskDueDateEdit);
     layout->addWidget(new QLabel("Godzina rozpoczęcia zadania:"));
     layout->addWidget(taskStartTimeEdit);
-    layout->addWidget(new QLabel("Czas  trwania zadania:"));
+    layout->addWidget(new QLabel("Czas trwania zadania:"));
     layout->addWidget(taskTimeEdit);
 
-    // Dodanie przycisków
     QHBoxLayout *buttonLayout = new QHBoxLayout();
     buttonLayout->addWidget(saveButton);
     buttonLayout->addWidget(cancelButton);
@@ -72,28 +67,35 @@ TaskAddWindow::TaskAddWindow(QWidget *parent) : QWidget(parent) {
 void TaskAddWindow::setInitialDateTime(const QDate &date, const QTime &time) {
     taskStartTimeEdit->setTime(time);
     if (taskDueDateEdit) {
-        taskDueDateEdit->setDate(date);  // Ustawienie daty
+        taskDueDateEdit->setDate(date);
     } else {
         qDebug() << "taskDueDateEdit nie jest zainicjowane!";
     }
 }
 
 void TaskAddWindow::saveTask() {
-    QString person = taskPersonEdit->text();
-    QString title = taskTitleEdit->text();
-    QString description = taskDescriptionEdit->text();
-    QString dueDate = taskDueDateEdit->date().toString("yyyy-MM-dd");
-    qDebug() << dueDate;
-    QString startTime = taskStartTimeEdit->time().toString("HH:mm");
-    QString time = taskTimeEdit->time().toString("HH:mm");
+    Task newTask;
+    newTask.person = taskPersonEdit->text();
+    newTask.title = taskTitleEdit->text();
+    newTask.description = taskDescriptionEdit->text();
+    newTask.dueDate = taskDueDateEdit->date();
+    newTask.startTime = taskStartTimeEdit->time();
+    newTask.time = taskTimeEdit->time();
 
-    if (title.isEmpty() || person.isEmpty() || taskDueDateEdit->date().isNull() || time.isEmpty()) {
-        QMessageBox::warning(this, "Błąd", "Nie mogą być puste.");
+    if (newTask.title.isEmpty() || newTask.person.isEmpty() || newTask.dueDate.isNull() || newTask.time.isNull()) {
+        QMessageBox::warning(this, "Błąd", "Pola tytuł, osoba odpowiedzialna, data i czas trwania nie mogą być puste.");
         return;
     }
-    this->database.addTask(person, title, description, dueDate, startTime, time);
-    emit taskAdded(person, title, description, dueDate, startTime, time);  // Wysyłanie sygnału
 
+    if (!database.addTask(newTask.person, newTask.title, newTask.description,
+                          newTask.dueDate.toString("yyyy-MM-dd"),
+                          newTask.startTime.toString("HH:mm"),
+                          newTask.time.toString("HH:mm"))) {
+        QMessageBox::critical(this, "Błąd", "Wystąpił błąd podczas dodawania zadania do bazy danych.");
+        return;
+    }
+
+    emit taskAdded(); // Zmiana: Emituje sygnał bez parametrów
     QMessageBox::information(this, "Sukces", "Zadanie zostało dodane.");
     close();
 }

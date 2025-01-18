@@ -13,17 +13,17 @@
 #include "database.h"
 
 class TaskAddWindow : public QWidget {
-    Q_OBJECT
+Q_OBJECT
 
 public:
-    explicit TaskAddWindow(QWidget *parent = nullptr);
+    explicit TaskAddWindow(Database& database, QWidget *parent = nullptr); // Zmiana: Przyjmuje referencję do Database
     void setInitialDateTime(const QDate &date, const QTime &time);
 
-    signals:
-        void taskAdded(const QString &person, const QString &title, const QString &description, const QString &dueDate, const QString &startTime, const QString &time);
+signals:
+    void taskAdded(); // Zmiana: Sygnał bez parametrów
 
 private:
-    Database database;
+    Database& database; // Zmiana: Przechowuje referencję
     QLineEdit *taskPersonEdit;
     QLineEdit *taskTitleEdit;
     QLineEdit *taskDescriptionEdit;
@@ -32,7 +32,6 @@ private:
     QTimeEdit *taskTimeEdit;
     QPushButton *saveButton;
     QPushButton *cancelButton;
-
 
 private slots:
     void saveTask();

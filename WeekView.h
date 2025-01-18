@@ -3,13 +3,8 @@
 
 #include <QWidget>
 #include <QGridLayout>
-#include <QLabel>
-#include <QPushButton>
-#include <QDate>
 #include <QCalendarWidget>
-#include <QVBoxLayout>
 #include <QMap>
-#include <QPair>
 #include "TaskWindow.h"
 #include "database.h"
 #include "TaskEditWindow.h"
@@ -18,12 +13,13 @@
 
 
 class WeekView : public QWidget {
-    Q_OBJECT
+Q_OBJECT
 
-    public:
+public:
     explicit WeekView(Database &db, QWidget *parent = nullptr);
+    ~WeekView();
 
-    private slots:
+private slots:
     void showPreviousWeek();
     void showNextWeek();
     void openCalendar();
@@ -38,7 +34,6 @@ private:
     int calculateRowForTime(const QDate &date, const QPair<QString, QString> &task);
     void displayTasksForWeek();
     QString getColorForPerson(const QString &person);
-
 
     QGridLayout *layout;
     QLabel *dayLabels[7];
