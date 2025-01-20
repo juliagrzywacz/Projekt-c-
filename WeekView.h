@@ -40,7 +40,7 @@ private:
     QDate currentWeekStartDate;
     QPushButton *dateRangeButton;
     QCalendarWidget *calendarWidget;
-    QMap<QPushButton*, QPair<QDate, QTime>> cellDateTimeMap;
+    QMap<QWidget*, QPair<QDate, QTime>> cellDateTimeMap;
     QMap<QString, QString> personColorMap;
     QStringList pastelColors;
     QStringList days;

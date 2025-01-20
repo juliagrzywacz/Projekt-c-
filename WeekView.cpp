@@ -2,7 +2,9 @@
 #include "TaskWindow.h"
 #include "database.h"
 #include <QGridLayout>
-#include <QDebug> // Dodane includowanie QDebug
+#include <QDebug>
+#include <QTextEdit>
+#include <QScrollArea>
 
 WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWindow(nullptr), database(db) {
     pastelColors = {
@@ -13,11 +15,13 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
     mainLayout->setSpacing(0);
     mainLayout->setContentsMargins(0,0,0,0);
 
+    setFixedSize(1000, 700);
+
     currentWeekStartDate = QDate::currentDate().addDays(-QDate::currentDate().dayOfWeek() + 1);
 
     QPushButton *addTaskButton = new QPushButton("+", this);
     addTaskButton->setFixedSize(30, 30);
-    mainLayout->addWidget(addTaskButton, 0, Qt::AlignLeft);
+    mainLayout->addWidget(addTaskButton, 0, Qt::AlignCenter);
 
     connect(addTaskButton, &QPushButton::clicked, this, &WeekView::openAddTaskWindowWithCurrentDateTime);
 
@@ -44,21 +48,29 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
 
     mainLayout->addWidget(dateRangeButton, 0, Qt::AlignCenter);
 
+    QScrollArea *scrollArea = new QScrollArea(this);
+    QWidget *centralWidget = new QWidget(this);
+    QVBoxLayout *centralLayout = new QVBoxLayout(centralWidget);
+    centralLayout->setSpacing(0);
+    centralLayout->setContentsMargins(0,0,0,0);
     layout = new QGridLayout();
-    layout->setSpacing(0); // **USUNIĘCIE ODSTĘPÓW W LAYOUCIE**
-    layout->setContentsMargins(20,0,20,0);
+    layout->setSpacing(0);
+    layout->setContentsMargins(0,0,0,0);
+    //layout->setRowMinimumHeight(1, 40);
+
     days = {"Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela"};
 
     // tworzenie nagłówków dni
     for (int i = 0; i < 7; ++i) {
         dayLabels[i] = new QLabel(this);
-        dayLabels[i]->setAlignment(Qt::AlignCenter);
-        dayLabels[i]->setStyleSheet("padding: 0px;");
+        dayLabels[i]->setAlignment(Qt::AlignCenter | Qt::AlignTop); // Wyrównanie do góry i do środka
+        dayLabels[i]->setStyleSheet("padding: 0px; border-bottom: 3px solid gray; background-color: lightblue;");
+        QFont font = dayLabels[i]->font();
+        font.setPointSize(12);       // Ustawienie rozmiaru czcionki na 12
+        font.setBold(true);         // Ustawienie pogrubienia
+        dayLabels[i]->setFont(font);  // Zastosowanie zmodyfikowanej czcionki
+        dayLabels[i]->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
         layout->addWidget(dayLabels[i], 1, i + 1);
-    }
-
-    for (int i = 0; i < 7; ++i) {
-        layout->addWidget(dayLabels[i], 1, i + 1); // Dodawanie do layoutu
     }
 
     QStringList hours;
@@ -68,32 +80,58 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
         }
     }
 
+    // Nagłówki godzin
     for (int row = 0; row < hours.size(); ++row) {
         QLabel *timeLabel = new QLabel(this);
-        timeLabel->setAlignment(Qt::AlignCenter);
+        timeLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter); // Wyrównanie do prawej i do środka w pionie
         timeLabel->setText(hours[row]);
-        timeLabel->setStyleSheet("padding: 0px;");
+        timeLabel->setStyleSheet("border: 1px solid gray; border-right: 3px solid gray; padding: 0px; background-color: lightblue;");
+        QFont font = timeLabel->font();
+        font.setPointSize(12);
+        font.setBold(true);
+        timeLabel->setFont(font);
         layout->addWidget(timeLabel, row + 2, 0);
+        layout->setRowMinimumHeight(row + 2, 20);
     }
 
     // Tworzenie komórek siatki
     for (int row = 0; row < hours.size(); ++row) {
         for (int col = 0; col < days.size(); ++col) {
-            QPushButton *cell = new QPushButton(this);
-            cell->setText("");
+            QTextEdit *cell = new QTextEdit(this);
+            cell->setReadOnly(true);
             cell->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-            cell->setStyleSheet("padding: 0px;"); // Usunięcie marginesów wewnętrznych
-            cell->setMinimumSize(0, 0); // Ustawienie minimalnego rozmiaru na 0
+            cell->setMinimumSize(0, 0);
+            cell->setMaximumHeight(50); // Ustaw maksymalną wysokość
+            cell->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded); // Pasek przewijania
+
+            QTextCharFormat format;
+            format.setForeground(Qt::black);
+            QTextBlockFormat blockFormat;
+            blockFormat.setAlignment(Qt::AlignCenter);
+
+            QTextCursor cursor = cell->textCursor();
+            cursor.select(QTextCursor::Document);
+            cursor.setCharFormat(format);
+            cursor.setBlockFormat(blockFormat);
+            cursor.clearSelection();
+
+            cell->setStyleSheet("padding: 0px; border: 1px solid black;");
+            if (col > 0) {
+                cell->setStyleSheet("padding: 0px;");
+            }
+            if (col == 5 || col == 6) {
+                cell->setStyleSheet("padding: 0px; border: 1px solid black; background-color: #bbbbbb;");
+            }
             layout->addWidget(cell, row + 2, col + 1);
 
             QDate cellDate = currentWeekStartDate.addDays(col);
-            int hour = 6 + row / 2; // Zmiana na / 2
-            int minute = (row % 2) * 30; // Zmiana na * 30
+            int hour = 6 + row / 2;
+            int minute = (row % 2) * 30;
             QTime cellTime(hour, minute);
 
             cellDateTimeMap[cell] = qMakePair(cellDate, cellTime);
 
-            connect(cell, &QPushButton::clicked, this, [this, cell]() {
+            connect(cell, &QTextEdit::selectionChanged, this, [this, cell]() {
                 QVariant taskIdVariant = cell->property("taskId");
                 if (taskIdVariant.isValid()) {
                     int taskId = taskIdVariant.toInt();
@@ -105,10 +143,15 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
             });
         }
     }
-    mainLayout->addLayout(layout);
-    setLayout(mainLayout);
 
+    centralLayout->addLayout(layout);
+    centralWidget->setLayout(centralLayout);
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setWidget(centralWidget);
+    mainLayout->addWidget(scrollArea);
+    setLayout(mainLayout);
     updateCalendar();
+
 }
 
 WeekView::~WeekView() {
@@ -139,17 +182,31 @@ void WeekView::onDateSelected(const QDate &date) {
 }
 
 void WeekView::updateCalendar() {
-    personColorMap.clear();
+    //personColorMap.clear();
+    // CZYSZCZENIE KOMÓREK PRZED AKTUALIZACJĄ
     for (int row = 2; row < layout->rowCount(); ++row) {
         for (int col = 1; col < layout->columnCount(); ++col) {
-            QPushButton *button = dynamic_cast<QPushButton*>(layout->itemAtPosition(row, col)->widget());
-            if (button) {
-                button->setText("");
-                button->setStyleSheet("");
-                button->setProperty("taskId", QVariant());
+            QLayoutItem *item = layout->itemAtPosition(row, col);
+            if (item) {
+                QWidget *widget = item->widget();
+                if (widget) {
+                    QTextEdit *cell = dynamic_cast<QTextEdit*>(widget);
+                    if (cell) {
+                        cell->clear(); // Czyszczenie zawartości QTextEdit
+                        cell->setProperty("taskId", QVariant()); // Czyszczenie property taskId
+
+                        if (col > 0) {
+                            cell->setStyleSheet("padding: 0px; ");
+                        }
+                        if (col == 6 || col == 7) {
+                            cell->setStyleSheet("padding: 0px; border-left: 1px solid black; background-color: #bbbbbb;");
+                        }
+                    }
+                }
             }
         }
     }
+
     for (int i = 0; i < 7; ++i) {
         QDate dayDate = currentWeekStartDate.addDays(i);
         QString dayName = this->days[i];
@@ -213,6 +270,8 @@ void WeekView::displayTasksForWeek() {
         int durationInMinutes = task.time.hour() * 60 + task.time.minute();
         int rowsToSpan = durationInMinutes / 30; // 30 minut na komórkę
 
+
+
         for (int i = 0; i < rowsToSpan; ++i) {
             int currentRow = startRow + i;
             if(currentRow >= layout->rowCount()) break;
@@ -221,18 +280,29 @@ void WeekView::displayTasksForWeek() {
             if (item) {
                 QWidget *widget = item->widget();
                 if (widget) {
-                    QPushButton *button = dynamic_cast<QPushButton*>(item->widget());
-                    if (button) {
+                    QTextEdit *cell = dynamic_cast<QTextEdit*>(widget);
+                    if (cell) {
                         QString taskText = (i == 0) ? (task.person + "\n" + task.title) : "";
-                        button->setText(taskText);
+                        cell->setPlainText(taskText);
+
+
+                        QTextCharFormat format;
+                        format.setForeground(Qt::black);
+                        QTextBlockFormat blockFormat;
+                        blockFormat.setAlignment(Qt::AlignCenter);
+                        QTextCursor cursor = cell->textCursor();
+                        cursor.select(QTextCursor::Document);
+                        cursor.setCharFormat(format);
+                        cursor.setBlockFormat(blockFormat);
+                        cursor.clearSelection();
 
                         if (task.completed == 1) {
-                            button->setStyleSheet("background-color: #f0f0f0;");
+                            cell->setStyleSheet("background-color: #f0f0f0; border: 1px solid black;");
                         } else {
                             QString personColor = getColorForPerson(task.person);
-                            button->setStyleSheet(QString("background-color: %1;").arg(personColor));
+                            cell->setStyleSheet(QString("background-color: %1; border: 1px %1;").arg(personColor));
                         }
-                        button->setProperty("taskId", task.id);
+                        cell->setProperty("taskId", task.id);
                     }
                 }
             }
