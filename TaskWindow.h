@@ -10,6 +10,9 @@
 #include <QSqlDatabase>
 #include <QDateEdit>
 #include <QTimeEdit>
+#include <QApplication>
+#include <QScreen>
+#include <QFormLayout>
 #include "database.h"
 
 class TaskAddWindow : public QWidget {

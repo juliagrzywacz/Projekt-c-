@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QTextEdit>
 #include <QScrollArea>
+#include <QDir>
 
 WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWindow(nullptr), database(db) {
     pastelColors = {
@@ -15,38 +16,56 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
     mainLayout->setSpacing(0);
     mainLayout->setContentsMargins(0,0,0,0);
 
-    setFixedSize(1000, 700);
+    setMinimumSize(800, 600); // Minimalny rozmiar: 800x600 pikseli
+    setMaximumSize(1920, 1080); // Maksymalny rozmiar (opcjonalnie)
 
     currentWeekStartDate = QDate::currentDate().addDays(-QDate::currentDate().dayOfWeek() + 1);
 
-    QPushButton *addTaskButton = new QPushButton("+", this);
-    addTaskButton->setFixedSize(30, 30);
-    mainLayout->addWidget(addTaskButton, 0, Qt::AlignCenter);
+    QPushButton *addTaskButton = new QPushButton(this);
+    QIcon icon(":/icons/add-circle-bold.png");
+    addTaskButton->setIcon(icon);
+    addTaskButton->setIconSize(QSize(40, 40));
+    addTaskButton->setFixedSize(55 , 55);
 
+    addTaskButton->setStyleSheet("QPushButton { background-color: DeepSkyBlue; color: white; border-radius: 5px; } QPushButton:hover { background-color: DodgerBlue; }");
+    addTaskButton->show();
+
+    mainLayout->addWidget(addTaskButton, 0, Qt::AlignCenter);
     connect(addTaskButton, &QPushButton::clicked, this, &WeekView::openAddTaskWindowWithCurrentDateTime);
 
     QPushButton *prevWeekButton = new QPushButton("Poprzedni tydzień", this);
+    prevWeekButton->setFixedSize(200, 40);
+    QFont font = prevWeekButton->font();
+    font.setBold(true);
+    font.setPointSize(12);
+    prevWeekButton->setFont(font);
+    prevWeekButton->setStyleSheet("QPushButton { background-color: DeepSkyBlue; color: white; margin-right: 20px; border-radius: 5px; } QPushButton:hover { background-color: DodgerBlue; }");
+
     QPushButton *nextWeekButton = new QPushButton("Następny tydzień", this);
+    nextWeekButton->setFixedSize(200, 40);
+    nextWeekButton->setFont(font);
+    nextWeekButton->setStyleSheet("QPushButton { background-color: DeepSkyBlue; color: white; margin-left: 20px; border-radius: 5px; } QPushButton:hover { background-color: DodgerBlue; }");
+
     connect(prevWeekButton, &QPushButton::clicked, this, &WeekView::showPreviousWeek);
     connect(nextWeekButton, &QPushButton::clicked, this, &WeekView::showNextWeek);
 
-    QHBoxLayout *topLayout = new QHBoxLayout();
-    topLayout->addWidget(addTaskButton);
-    topLayout->addStretch();
-    topLayout->addWidget(prevWeekButton);
-    topLayout->addWidget(nextWeekButton);
-
-    mainLayout->addLayout(topLayout);
-
     dateRangeButton = new QPushButton(this);
     connect(dateRangeButton, &QPushButton::clicked, this, &WeekView::openCalendar);
+    dateRangeButton->setFixedSize(200 , 40);
+    dateRangeButton->setFont(font);
+    dateRangeButton->setStyleSheet("QPushButton { background-color: DeepSkyBlue; color: white; border-radius: 5px; } QPushButton:hover { background-color: DodgerBlue; }");
 
     calendarWidget = new QCalendarWidget(this);
     calendarWidget->setWindowFlags(Qt::Popup);
     connect(calendarWidget, &QCalendarWidget::clicked, this, &WeekView::onDateSelected);
     calendarWidget->hide();
 
-    mainLayout->addWidget(dateRangeButton, 0, Qt::AlignCenter);
+    QHBoxLayout *topLayout = new QHBoxLayout();
+    topLayout->addWidget(prevWeekButton);
+    topLayout->addWidget(dateRangeButton);
+    topLayout->addWidget(nextWeekButton);
+    topLayout->setAlignment(Qt::AlignCenter);
+    mainLayout->addLayout(topLayout);
 
     QScrollArea *scrollArea = new QScrollArea(this);
     QWidget *centralWidget = new QWidget(this);
@@ -56,7 +75,6 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
     layout = new QGridLayout();
     layout->setSpacing(0);
     layout->setContentsMargins(0,0,0,0);
-    //layout->setRowMinimumHeight(1, 40);
 
     days = {"Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela"};
 
@@ -64,18 +82,19 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
     for (int i = 0; i < 7; ++i) {
         dayLabels[i] = new QLabel(this);
         dayLabels[i]->setAlignment(Qt::AlignCenter | Qt::AlignTop); // Wyrównanie do góry i do środka
-        dayLabels[i]->setStyleSheet("padding: 0px; border-bottom: 3px solid gray; background-color: lightblue;");
+        dayLabels[i]->setStyleSheet("padding: 0px; border-bottom: 3px solid #555555; background-color: lightblue; color: DarkSlateGrey;");
+
         QFont font = dayLabels[i]->font();
-        font.setPointSize(12);       // Ustawienie rozmiaru czcionki na 12
+        font.setPointSize(12);       // Ustawienie rozmiaru czcionki na 12 (możesz dostosować)
         font.setBold(true);         // Ustawienie pogrubienia
         dayLabels[i]->setFont(font);  // Zastosowanie zmodyfikowanej czcionki
-        dayLabels[i]->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
+        dayLabels[i]->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum); // **USTAWIENIE POLITYKI ROZMIARU**
         layout->addWidget(dayLabels[i], 1, i + 1);
     }
 
     QStringList hours;
     for (int hour = 6; hour < 22; ++hour) {
-        for (int minute = 0; minute < 60; minute += 30) { // Zmiana na += 30
+        for (int minute = 0; minute < 60; minute += 15) { // Zmiana na += 30
             hours.append(QString("%1:%2").arg(hour, 2, 10, QChar('0')).arg(minute, 2, 10, QChar('0')));
         }
     }
@@ -83,29 +102,41 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
     // Nagłówki godzin
     for (int row = 0; row < hours.size(); ++row) {
         QLabel *timeLabel = new QLabel(this);
-        timeLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter); // Wyrównanie do prawej i do środka w pionie
-        timeLabel->setText(hours[row]);
-        timeLabel->setStyleSheet("border: 1px solid gray; border-right: 3px solid gray; padding: 0px; background-color: lightblue;");
-        QFont font = timeLabel->font();
-        font.setPointSize(12);
-        font.setBold(true);
-        timeLabel->setFont(font);
+        timeLabel->setAlignment(Qt::AlignRight); // Wyrównanie do prawej
+
+        if (row % 2 == 0) {
+            timeLabel->setText(hours[row]);
+            timeLabel->setStyleSheet("border-right: 3px solid #555555; padding: 0px; background-color: lightblue; color: DarkSlateGrey;");
+            if (row % 4 == 0) {
+                timeLabel->setStyleSheet("border-top: 3px solid #555555; border-right: 3px solid #555555; padding: 0px; background-color: lightblue; color: DarkSlateGrey;");
+            }
+            QFont font = timeLabel->font();
+            font.setPointSize(12);
+            font.setBold(true);
+            timeLabel->setFont(font);
+            layout->setRowMinimumHeight(row + 2, 20);
+        } else {
+            timeLabel->setStyleSheet("border-right: 3px solid #555555; padding: 0px; background-color: lightblue;");
+            layout->setRowMinimumHeight(row + 2, 5);
+        }
         layout->addWidget(timeLabel, row + 2, 0);
-        layout->setRowMinimumHeight(row + 2, 20);
     }
+
+    layout->addWidget(addTaskButton, 1, 0);
 
     // Tworzenie komórek siatki
     for (int row = 0; row < hours.size(); ++row) {
+
         for (int col = 0; col < days.size(); ++col) {
             QTextEdit *cell = new QTextEdit(this);
             cell->setReadOnly(true);
             cell->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
             cell->setMinimumSize(0, 0);
-            cell->setMaximumHeight(50); // Ustaw maksymalną wysokość
+            cell->setMaximumHeight(30); // Ustaw maksymalną wysokość
             cell->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded); // Pasek przewijania
 
             QTextCharFormat format;
-            format.setForeground(Qt::black);
+            format.setForeground(Qt::black); // Ustawienie koloru tekstu na czarny
             QTextBlockFormat blockFormat;
             blockFormat.setAlignment(Qt::AlignCenter);
 
@@ -115,21 +146,14 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
             cursor.setBlockFormat(blockFormat);
             cursor.clearSelection();
 
-            cell->setStyleSheet("padding: 0px; border: 1px solid black;");
-            if (col > 0) {
-                cell->setStyleSheet("padding: 0px;");
-            }
-            if (col == 5 || col == 6) {
-                cell->setStyleSheet("padding: 0px; border: 1px solid black; background-color: #bbbbbb;");
-            }
             layout->addWidget(cell, row + 2, col + 1);
 
             QDate cellDate = currentWeekStartDate.addDays(col);
-            int hour = 6 + row / 2;
-            int minute = (row % 2) * 30;
+            int hour = 6 + row / 4;
+            int minute = (row % 4) * 15;
             QTime cellTime(hour, minute);
 
-            cellDateTimeMap[cell] = qMakePair(cellDate, cellTime);
+            cellDateTimeMap[cell] = qMakePair(cellDate, cellTime); // Teraz działa poprawnie
 
             connect(cell, &QTextEdit::selectionChanged, this, [this, cell]() {
                 QVariant taskIdVariant = cell->property("taskId");
@@ -144,6 +168,7 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
         }
     }
 
+    layout->setRowMinimumHeight(1, 55);
     centralLayout->addLayout(layout);
     centralWidget->setLayout(centralLayout);
     scrollArea->setWidgetResizable(true);
@@ -151,11 +176,10 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
     mainLayout->addWidget(scrollArea);
     setLayout(mainLayout);
     updateCalendar();
-
 }
 
 WeekView::~WeekView() {
-    for (int i = 0; i < 7; ++i) { // Poprawione usuwanie
+    for (int i = 0; i < 7; ++i) {
         delete dayLabels[i];
     }
 }
@@ -183,7 +207,6 @@ void WeekView::onDateSelected(const QDate &date) {
 
 void WeekView::updateCalendar() {
     //personColorMap.clear();
-    // CZYSZCZENIE KOMÓREK PRZED AKTUALIZACJĄ
     for (int row = 2; row < layout->rowCount(); ++row) {
         for (int col = 1; col < layout->columnCount(); ++col) {
             QLayoutItem *item = layout->itemAtPosition(row, col);
@@ -192,15 +215,31 @@ void WeekView::updateCalendar() {
                 if (widget) {
                     QTextEdit *cell = dynamic_cast<QTextEdit*>(widget);
                     if (cell) {
-                        cell->clear(); // Czyszczenie zawartości QTextEdit
-                        cell->setProperty("taskId", QVariant()); // Czyszczenie property taskId
+                        cell->clear();
+                        cell->setProperty("taskId", QVariant());
 
-                        if (col > 0) {
-                            cell->setStyleSheet("padding: 0px; ");
+                        if (row % 2 == 0) {
+                            cell->setStyleSheet("background-color: #888888; border-top: none; border-bottom: none; border-right: 1px solid #bbbbbb;");
+                        } else {
+                            cell->setStyleSheet("background-color: #aaaaaa; border-top: none; border-bottom: none; border-right: 1px solid #bbbbbb;");
                         }
-                        if (col == 6 || col == 7) {
-                            cell->setStyleSheet("padding: 0px; border-left: 1px solid black; background-color: #bbbbbb;");
+
+                        if (col == 6) {
+                            if (row % 2 == 0) {
+                                cell->setStyleSheet("padding: 0px; background-color: LightSkyBlue; border: none;");
+                            } else {
+                                cell->setStyleSheet("padding: 0px; background-color: LightBlue; border: none;");
+                            }
                         }
+
+                        if (col == 7) {
+                            if (row % 2 == 0) {
+                                cell->setStyleSheet("padding: 0px; background-color: PaleTurquoise; border: none;");
+                            } else {
+                                cell->setStyleSheet("padding: 0px; background-color: LightCyan; border: none;");
+                            }
+                        }
+
                     }
                 }
             }
@@ -224,14 +263,12 @@ void WeekView::showTaskAddWindow(const QDate &date, const QTime &time) {
         taskAddWindow = new TaskAddWindow(database, this);
         taskAddWindow->move(this->geometry().center() - taskAddWindow->rect().center());
 
-        // Poprawione połączenie: używamy sygnału destroyed
         connect(taskAddWindow, &TaskAddWindow::destroyed, this, [this](){
             this->taskAddWindow = nullptr;
         });
     }
 
     connect(taskAddWindow, &TaskAddWindow::taskAdded, this, &WeekView::updateCalendar);
-
     taskAddWindow->setInitialDateTime(date, time);
 
     if (!taskAddWindow->isVisible()) {
@@ -268,9 +305,7 @@ void WeekView::displayTasksForWeek() {
         if (startRow == -1) continue;
 
         int durationInMinutes = task.time.hour() * 60 + task.time.minute();
-        int rowsToSpan = durationInMinutes / 30; // 30 minut na komórkę
-
-
+        int rowsToSpan = durationInMinutes / 15; // 15 minut na komórkę
 
         for (int i = 0; i < rowsToSpan; ++i) {
             int currentRow = startRow + i;
@@ -285,7 +320,6 @@ void WeekView::displayTasksForWeek() {
                         QString taskText = (i == 0) ? (task.person + "\n" + task.title) : "";
                         cell->setPlainText(taskText);
 
-
                         QTextCharFormat format;
                         format.setForeground(Qt::black);
                         QTextBlockFormat blockFormat;
@@ -297,7 +331,7 @@ void WeekView::displayTasksForWeek() {
                         cursor.clearSelection();
 
                         if (task.completed == 1) {
-                            cell->setStyleSheet("background-color: #f0f0f0; border: 1px solid black;");
+                            cell->setStyleSheet("background-color: #f0f0f0;");
                         } else {
                             QString personColor = getColorForPerson(task.person);
                             cell->setStyleSheet(QString("background-color: %1; border: 1px %1;").arg(personColor));
@@ -327,9 +361,8 @@ int WeekView::calculateRowForTime(const QDate &date, const QPair<QString, QStrin
         return -1; // Zadanie poza zakresem siatki
     }
 
-    int row = (hour - 6) * 2 + (minute / 30); // Obliczanie wiersza dla 30-minutowych interwałów
-    //qDebug() << "Obliczony wiersz: " << row;
-    return row + 2; // +2 dla nagłówków
+    int row = (hour - 6) * 4 + (minute / 15);
+    return row + 2;
 }
 
 QString WeekView::getColorForPerson(const QString &person) {

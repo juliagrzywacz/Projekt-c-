@@ -32,10 +32,10 @@ set(HEADERS
 
 # Generowanie plików MOC (Meta-Object Compiler)
 qt6_wrap_cpp(MOC_FILES ${HEADERS})
+qt_add_resources(RESOURCES resources.qrc)
 
 # Tworzenie pliku wykonywalnego
-add_executable(App ${SOURCES} ${MOC_FILES})
-#add_executable(App main.cpp database.cpp database.h)
+add_executable(App ${SOURCES} ${MOC_FILES} ${RESOURCES})
 
 # Powiązanie pliku wykonywalnego z biblioteką Qt Widgets i Sql
 target_link_libraries(App PRIVATE Qt6::Core Qt6::Widgets Qt6::Sql)

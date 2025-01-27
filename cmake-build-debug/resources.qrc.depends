@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/add-circle-bold.png</file>
+        <file>icons/add.png</file>
+    </qresource>
+</RCC>
