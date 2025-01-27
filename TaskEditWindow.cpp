@@ -8,78 +8,108 @@ TaskEditWindow::TaskEditWindow(Database& db, int taskId, QWidget *parent)
 
     setWindowTitle("Edytuj zadanie");
     setFixedSize(300, 400);
-    this->setStyleSheet("background-color: lightgray;");
+
+    setAutoFillBackground(true);
+    QPalette palette = this->palette();
+    palette.setColor(QPalette::Window, QColor("#D3D3D3"));
+    setPalette(palette);
 
     QVBoxLayout *layout = new QVBoxLayout(this);
+    layout->setSpacing(10);
 
-    // Pole tekstowe dla osoby odpowiedzialnej
+    QString inputStyle = "QLineEdit, QDateEdit, QTimeEdit {"
+                         "background-color: lightblue;"
+                         "border: 1px solid lightblue;"
+                         "border-radius: 5px;"
+                         "padding: 2px;"
+                         "font-size: 14px;"
+                         "}"
+                         "QLineEdit:focus, QDateEdit:focus, QTimeEdit:focus {"
+                         "border: 1px solid #4682B4;"
+                         "}";
+
+    QString buttonStyle = "QPushButton {"
+                          "background-color: lightblue;"
+                          "border: none;"
+                          "border-radius: 5px;"
+                          "padding: 4px 15px;"
+                          "font-size: 14px;"
+                          "font-weight: bold;"
+                          "color: DarkSlateGrey;"
+                          "}"
+                          "QPushButton:hover {"
+                          "background-color: #87CEEB;"
+                          "}"
+                          "QPushButton:pressed {"
+                          "background-color: #6495ED;"
+                          "}";
+
+    auto createLabel = [](const QString& text) {
+        QLabel* label = new QLabel(text);
+        label->setStyleSheet("font-weight: bold;");
+        return label;
+    };
+
     taskPersonEdit = new QLineEdit(this);
     taskPersonEdit->setPlaceholderText("Wpisz osobę odpowiedzialną");
+    taskPersonEdit->setStyleSheet(inputStyle);
 
-    // Pole tekstowe dla tytułu
     taskTitleEdit = new QLineEdit(this);
     taskTitleEdit->setPlaceholderText("Wpisz tytuł zadania");
+    taskTitleEdit->setStyleSheet(inputStyle);
 
-    // Pole tekstowe dla opisu
     taskDescriptionEdit = new QLineEdit(this);
     taskDescriptionEdit->setPlaceholderText("Wpisz opis zadania");
+    taskDescriptionEdit->setStyleSheet(inputStyle);
 
-    // Widget do wyboru daty
     taskDueDateEdit = new QDateEdit(this);
     taskDueDateEdit->setDisplayFormat("yyyy-MM-dd");
     taskDueDateEdit->setCalendarPopup(true);
+    taskDueDateEdit->setStyleSheet(inputStyle);
 
-    // Widget do wyboru godziny rozpoczęcia zadania
     taskStartTimeEdit = new QTimeEdit(this);
     taskStartTimeEdit->setDisplayFormat("HH:mm");
+    taskStartTimeEdit->setStyleSheet(inputStyle);
 
-    // Widget do wyboru czasu trwania zadania
     taskTimeEdit = new QTimeEdit(this);
     taskTimeEdit->setDisplayFormat("HH:mm");
+    taskTimeEdit->setStyleSheet(inputStyle);
 
-    // Dodanie checkboxa
     completedCheckbox = new QCheckBox("Zadanie ukończone", this);
+
+    layout->addWidget(createLabel("Osoba odpowiedzialna za:"));
+    layout->addWidget(taskPersonEdit);
+    layout->addWidget(createLabel("Tytuł zadania:"));
+    layout->addWidget(taskTitleEdit);
+    layout->addWidget(createLabel("Opis zadania:"));
+    layout->addWidget(taskDescriptionEdit);
+    layout->addWidget(createLabel("Termin zadania:"));
+    layout->addWidget(taskDueDateEdit);
+    layout->addWidget(createLabel("Godzina rozpoczęcia zadania:"));
+    layout->addWidget(taskStartTimeEdit);
+    layout->addWidget(createLabel("Czas trwania zadania:"));
+    layout->addWidget(taskTimeEdit);
     layout->addWidget(completedCheckbox);
 
-    // Przycisk zapisz
-    saveButton = new QPushButton("Zapisz", this);
+    QHBoxLayout *buttonLayout = new QHBoxLayout();
+    buttonLayout->addStretch(1);
+    buttonLayout->addWidget(saveButton = new QPushButton("Zapisz", this));
+    buttonLayout->addWidget(deleteButton = new QPushButton("Usuń", this));
+    buttonLayout->addWidget(cancelButton = new QPushButton("Anuluj", this));
+    buttonLayout->addStretch(1);
+
+    saveButton->setStyleSheet(buttonStyle);
     connect(saveButton, &QPushButton::clicked, this, &TaskEditWindow::saveTask);
 
-    // Przycisk usuń
-    deleteButton = new QPushButton("Usuń", this);
+    deleteButton->setStyleSheet(buttonStyle);
     connect(deleteButton, &QPushButton::clicked, this, &TaskEditWindow::deleteTask);
 
-    // Przycisk anuluj
-    cancelButton = new QPushButton("Anuluj", this);
+    cancelButton->setStyleSheet(buttonStyle);
     connect(cancelButton, &QPushButton::clicked, this, &TaskEditWindow::close);
 
-    // Dodanie widgetów do layoutu
-    layout->addWidget(new QLabel("Osoba odpowiedzialna za:"));
-    layout->addWidget(taskPersonEdit);
-    layout->addWidget(new QLabel("Tytuł zadania:"));
-    layout->addWidget(taskTitleEdit);
-    layout->addWidget(new QLabel("Opis zadania:"));
-    layout->addWidget(taskDescriptionEdit);
-    layout->addWidget(new QLabel("Termin zadania:"));
-    layout->addWidget(taskDueDateEdit);
-    layout->addWidget(new QLabel("Godzina rozpoczęcia zadania:"));
-    layout->addWidget(taskStartTimeEdit);
-    layout->addWidget(new QLabel("Czas  trwania zadania:"));
-    layout->addWidget(taskTimeEdit);
-
-    // Dodanie checkboxa przed przyciskami
-    layout->addWidget(completedCheckbox);
-
-    // Dodanie przycisków
-    QHBoxLayout *buttonLayout = new QHBoxLayout();
-    buttonLayout->addWidget(saveButton);
-    buttonLayout->addWidget(deleteButton);
-    buttonLayout->addWidget(cancelButton);
     layout->addLayout(buttonLayout);
-
     setLayout(layout);
 
-    // Załaduj dane zadania do pól tekstowych
     setTaskDetails(taskId);
 }
 

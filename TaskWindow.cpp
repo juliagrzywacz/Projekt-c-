@@ -9,7 +9,7 @@
 TaskAddWindow::TaskAddWindow(Database& database, QWidget *parent)
         : QWidget(parent), database(database) {
     setWindowTitle("Dodaj zadanie");
-    setFixedSize(340, 440);
+    setFixedSize(300, 400);
 
     setAutoFillBackground(true);
     QPalette palette = this->palette();
@@ -19,12 +19,12 @@ TaskAddWindow::TaskAddWindow(Database& database, QWidget *parent)
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setSpacing(10);
 
-    // Style CSS (teraz tło okienek jest lightblue)
+    // Style CSS
     QString inputStyle = "QLineEdit, QDateEdit, QTimeEdit {"
                          "background-color: lightblue;" // Lightblue tło
                          "border: 1px solid lightblue;" // Lightblue border
                          "border-radius: 5px;"
-                         "padding: 6px;"
+                         "padding: 2px;"
                          "font-size: 14px;"
                          "}"
                          "QLineEdit:focus, QDateEdit:focus, QTimeEdit:focus {"
@@ -35,10 +35,10 @@ TaskAddWindow::TaskAddWindow(Database& database, QWidget *parent)
                           "background-color: lightblue;" // Lightblue
                           "border: none;"
                           "border-radius: 5px;"
-                          "padding: 8px 15px;"
+                          "padding: 4px 15px;"
                           "font-size: 14px;"
                           "font-weight: bold;"
-                          "color: white;"
+                          "color: DarkSlateGrey;"
                           "}"
                           "QPushButton:hover {"
                           "background-color: #87CEEB;"

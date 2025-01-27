@@ -17,7 +17,7 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
     mainLayout->setContentsMargins(0,0,0,0);
 
     setMinimumSize(800, 600); // Minimalny rozmiar: 800x600 pikseli
-    setMaximumSize(1920, 1080); // Maksymalny rozmiar (opcjonalnie)
+    setMaximumSize(1920, 1080); // Maksymalny rozmiar
 
     currentWeekStartDate = QDate::currentDate().addDays(-QDate::currentDate().dayOfWeek() + 1);
 
