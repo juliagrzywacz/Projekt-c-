@@ -12,6 +12,8 @@
 #include <QMessageBox>
 #include <QCheckBox>
 #include <QScreen>
+#include <QSqlQuery>
+#include <QSqlError>
 #include "database.h"
 
 class TaskEditWindow : public QWidget {

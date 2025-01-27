@@ -1,7 +1,4 @@
 #include "TaskEditWindow.h"
-#include <QSqlQuery>
-#include <QSqlError>
-#include <QMessageBox>
 
 TaskEditWindow::TaskEditWindow(Database& db, int taskId, QWidget *parent)
         : QWidget(parent), database(db), taskId(taskId) {

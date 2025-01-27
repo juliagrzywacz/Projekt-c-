@@ -14,19 +14,21 @@
 #include <QScreen>
 #include <QFormLayout>
 #include "database.h"
+#include <QSqlError>
+#include <QMessageBox>
 
 class TaskAddWindow : public QWidget {
 Q_OBJECT
 
 public:
-    explicit TaskAddWindow(Database& database, QWidget *parent = nullptr); // Zmiana: Przyjmuje referencję do Database
+    explicit TaskAddWindow(Database& database, QWidget *parent = nullptr);
     void setInitialDateTime(const QDate &date, const QTime &time);
 
 signals:
-    void taskAdded(); // Zmiana: Sygnał bez parametrów
+    void taskAdded();
 
 private:
-    Database& database; // Zmiana: Przechowuje referencję
+    Database& database;
     QLineEdit *taskPersonEdit;
     QLineEdit *taskTitleEdit;
     QLineEdit *taskDescriptionEdit;

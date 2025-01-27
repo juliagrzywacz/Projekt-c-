@@ -1,14 +1,15 @@
 #include <QApplication>
 #include <QMainWindow>
-#include "WeekView.h"
-#include "database.h"
 #include <QScreen>
 #include <QStyle>
+#include "WeekView.h"
+#include "database.h"
+
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
-    // Inicjalizacja bazy danych (przenieś to na początek!)
+    // Inicjalizacja bazy danych
     initializeDatabase();
     Database database;
 
@@ -22,7 +23,7 @@ int main(int argc, char *argv[]) {
     mainWindow.setWindowTitle("Kalendarz Tygodniowy");
     mainWindow.show();
 
-    // **Centrowanie okna głównego (PO mainWindow.show())**
+    //Centrowanie okna głównego
     QScreen *screen = QGuiApplication::primaryScreen();
     if (screen) {
         QRect screenGeometry = screen->availableGeometry();

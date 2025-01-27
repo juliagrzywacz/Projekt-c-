@@ -9,6 +9,7 @@
 #include <QSqlQuery>
 #include <QVariant>
 #include <QSqlError>
+#include <QDebug>
 
 void initializeDatabase();
 
@@ -30,7 +31,6 @@ class Database {
     static bool addTask(const QString &person, const QString &title, const QString &description, const QString &due_date, const QString &start_time, const QString &time);
 
     QList<Task> getTasksForWeek(const QDate &startOfWeek);
-    QTime getTaskDuration(int taskId);
 
     bool deleteTask(int taskId);
     bool updateTask(int taskId, const QString &person, const QString &title, const QString &description, const QString &dueDate, const QString &startTime, const QString &time, int completed);

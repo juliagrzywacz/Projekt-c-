@@ -5,11 +5,15 @@
 #include <QGridLayout>
 #include <QCalendarWidget>
 #include <QMap>
+#include <random>
+#include <cstdlib>
+#include <QDebug>
+#include <QTextEdit>
+#include <QScrollArea>
+#include <QDir>
 #include "TaskWindow.h"
 #include "database.h"
 #include "TaskEditWindow.h"
-#include <random>
-#include <cstdlib>
 
 
 class WeekView : public QWidget {
@@ -45,7 +49,7 @@ private:
     QStringList pastelColors;
     QStringList days;
 
-    TaskAddWindow *taskAddWindow;  // Okno dodawania zadań
+    TaskAddWindow *taskAddWindow;
 };
 
 #endif // WEEKVIEW_H

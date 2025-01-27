@@ -1,11 +1,5 @@
 #include "WeekView.h"
-#include "TaskWindow.h"
-#include "database.h"
-#include <QGridLayout>
-#include <QDebug>
-#include <QTextEdit>
-#include <QScrollArea>
-#include <QDir>
+
 
 WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWindow(nullptr), database(db) {
     pastelColors = {
@@ -16,7 +10,7 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
     mainLayout->setSpacing(0);
     mainLayout->setContentsMargins(0,0,0,0);
 
-    setMinimumSize(800, 600); // Minimalny rozmiar: 800x600 pikseli
+    setMinimumSize(800, 600); // Minimalny rozmiar
     setMaximumSize(1920, 1080); // Maksymalny rozmiar
 
     currentWeekStartDate = QDate::currentDate().addDays(-QDate::currentDate().dayOfWeek() + 1);
@@ -81,14 +75,14 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
     // tworzenie nagłówków dni
     for (int i = 0; i < 7; ++i) {
         dayLabels[i] = new QLabel(this);
-        dayLabels[i]->setAlignment(Qt::AlignCenter | Qt::AlignTop); // Wyrównanie do góry i do środka
+        dayLabels[i]->setAlignment(Qt::AlignCenter | Qt::AlignTop);
         dayLabels[i]->setStyleSheet("padding: 0px; border-bottom: 3px solid #555555; background-color: lightblue; color: DarkSlateGrey;");
 
         QFont font = dayLabels[i]->font();
-        font.setPointSize(12);       // Ustawienie rozmiaru czcionki na 12 (możesz dostosować)
-        font.setBold(true);         // Ustawienie pogrubienia
-        dayLabels[i]->setFont(font);  // Zastosowanie zmodyfikowanej czcionki
-        dayLabels[i]->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum); // **USTAWIENIE POLITYKI ROZMIARU**
+        font.setPointSize(12);
+        font.setBold(true);
+        dayLabels[i]->setFont(font);
+        dayLabels[i]->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
         layout->addWidget(dayLabels[i], 1, i + 1);
     }
 
@@ -132,11 +126,11 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
             cell->setReadOnly(true);
             cell->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
             cell->setMinimumSize(0, 0);
-            cell->setMaximumHeight(30); // Ustaw maksymalną wysokość
+            cell->setMaximumHeight(50); //Maksymalna wysokość
             cell->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded); // Pasek przewijania
 
             QTextCharFormat format;
-            format.setForeground(Qt::black); // Ustawienie koloru tekstu na czarny
+            format.setForeground(Qt::black);
             QTextBlockFormat blockFormat;
             blockFormat.setAlignment(Qt::AlignCenter);
 
@@ -153,7 +147,7 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
             int minute = (row % 4) * 15;
             QTime cellTime(hour, minute);
 
-            cellDateTimeMap[cell] = qMakePair(cellDate, cellTime); // Teraz działa poprawnie
+            cellDateTimeMap[cell] = qMakePair(cellDate, cellTime);
 
             connect(cell, &QTextEdit::selectionChanged, this, [this, cell]() {
                 QVariant taskIdVariant = cell->property("taskId");

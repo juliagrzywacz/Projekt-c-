@@ -1,10 +1,4 @@
 #include "TaskWindow.h"
-#include <QSqlQuery>
-#include <QSqlError>
-#include <QMessageBox>
-#include "database.h"
-#include <QDebug>
-#include <QTimeEdit>
 
 TaskAddWindow::TaskAddWindow(Database& database, QWidget *parent)
         : QWidget(parent), database(database) {
@@ -19,7 +13,7 @@ TaskAddWindow::TaskAddWindow(Database& database, QWidget *parent)
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setSpacing(10);
 
-    // Style CSS
+    // Style
     QString inputStyle = "QLineEdit, QDateEdit, QTimeEdit {"
                          "background-color: lightblue;" // Lightblue tło
                          "border: 1px solid lightblue;" // Lightblue border
