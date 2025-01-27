@@ -21,7 +21,7 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
     addTaskButton->setIconSize(QSize(40, 40));
     addTaskButton->setFixedSize(55 , 55);
 
-    addTaskButton->setStyleSheet("QPushButton { background-color: DeepSkyBlue; color: white; border-radius: 5px; } QPushButton:hover { background-color: DodgerBlue; }");
+    addTaskButton->setStyleSheet("QPushButton { background-color: lightblue; color: DarkSlateGrey; border-radius: 5px; } QPushButton:hover { background-color: DodgerBlue; }");
     addTaskButton->show();
 
     mainLayout->addWidget(addTaskButton, 0, Qt::AlignCenter);
@@ -33,12 +33,12 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
     font.setBold(true);
     font.setPointSize(12);
     prevWeekButton->setFont(font);
-    prevWeekButton->setStyleSheet("QPushButton { background-color: DeepSkyBlue; color: white; margin-right: 20px; border-radius: 5px; } QPushButton:hover { background-color: DodgerBlue; }");
+    prevWeekButton->setStyleSheet("QPushButton { background-color: lightblue; color: DarkSlateGrey; margin-right: 20px; border-radius: 5px; } QPushButton:hover { background-color: DodgerBlue; }");
 
     QPushButton *nextWeekButton = new QPushButton("Następny tydzień", this);
     nextWeekButton->setFixedSize(200, 40);
     nextWeekButton->setFont(font);
-    nextWeekButton->setStyleSheet("QPushButton { background-color: DeepSkyBlue; color: white; margin-left: 20px; border-radius: 5px; } QPushButton:hover { background-color: DodgerBlue; }");
+    nextWeekButton->setStyleSheet("QPushButton { background-color: lightblue; color: DarkSlateGrey; margin-left: 20px; border-radius: 5px; } QPushButton:hover { background-color: DodgerBlue; }");
 
     connect(prevWeekButton, &QPushButton::clicked, this, &WeekView::showPreviousWeek);
     connect(nextWeekButton, &QPushButton::clicked, this, &WeekView::showNextWeek);
@@ -47,7 +47,7 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
     connect(dateRangeButton, &QPushButton::clicked, this, &WeekView::openCalendar);
     dateRangeButton->setFixedSize(200 , 40);
     dateRangeButton->setFont(font);
-    dateRangeButton->setStyleSheet("QPushButton { background-color: DeepSkyBlue; color: white; border-radius: 5px; } QPushButton:hover { background-color: DodgerBlue; }");
+    dateRangeButton->setStyleSheet("QPushButton { background-color: lightblue; color: DarkSlateGrey; border-radius: 5px; } QPushButton:hover { background-color: DodgerBlue; }");
 
     calendarWidget = new QCalendarWidget(this);
     calendarWidget->setWindowFlags(Qt::Popup);
