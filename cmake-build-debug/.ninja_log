@@ -31,3 +31,12 @@
 59	504	7602290345681097	D:/studia/semestr III/projekt c++/App/cmake-build-debug/qrc_resources.cpp	d264431c2fd06bf0
 505	706	7602290347724621	CMakeFiles/App.dir/qrc_resources.cpp.obj	8a238db98838e685
 706	1407	7602290354631965	App.exe	30b6dc668faad4aa
+64	3445	7602299752753767	CMakeFiles/App.dir/TaskWindow.cpp.obj	d5ae1c09d8b3bf5e
+50	3870	7602299757070781	CMakeFiles/App.dir/main.cpp.obj	f5a8a09143fe9dbd
+3870	4735	7602299765575455	App.exe	30b6dc668faad4aa
+42	2837	7602303139174933	CMakeFiles/App.dir/TaskEditWindow.cpp.obj	4a227e735e9c5b73
+2838	3563	7602303146351644	App.exe	30b6dc668faad4aa
+46	3090	7602304656683839	CMakeFiles/App.dir/TaskEditWindow.cpp.obj	4a227e735e9c5b73
+3091	3925	7602304665007048	App.exe	30b6dc668faad4aa
+39	2852	7602305003039503	CMakeFiles/App.dir/TaskEditWindow.cpp.obj	4a227e735e9c5b73
+2854	3590	7602305010382759	App.exe	30b6dc668faad4aa

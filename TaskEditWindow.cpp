@@ -142,7 +142,6 @@ void TaskEditWindow::saveTask() {
     }
 
     if (database.updateTask(taskId, person, title, description, dueDate, startTime, time, completed)) {
-        QMessageBox::information(this, "Sukces", "Zadanie zostało zaktualizowane.");
         emit taskUpdated(taskId);
         close();
     } else {
@@ -151,11 +150,25 @@ void TaskEditWindow::saveTask() {
 }
 
 void TaskEditWindow::deleteTask() {
-    if (database.deleteTask(taskId)) {
-        QMessageBox::information(this, "Sukces", "Zadanie zostało usunięte.");
-        emit taskDeleted(taskId);
-        close();
-    } else {
-        QMessageBox::warning(this, "Błąd", "Nie udało się usunąć zadania.");
+    // Tworzymy okno dialogowe
+    QMessageBox msgBox(this);
+    msgBox.setIcon(QMessageBox::Question);
+    msgBox.setWindowTitle("Potwierdzenie usunięcia");
+    msgBox.setText("Czy na pewno chcesz usunąć to zadanie?");
+
+    // Ustawienie przycisków z polskimi etykietami
+    QPushButton* yesButton = msgBox.addButton("Tak", QMessageBox::YesRole);
+    QPushButton* noButton = msgBox.addButton("Nie", QMessageBox::NoRole);
+
+    // Wyświetlenie okna dialogowego i czekanie na odpowiedź użytkownika
+    msgBox.exec();
+
+    // Sprawdzenie odpowiedzi użytkownika
+    if (msgBox.clickedButton() == yesButton) {
+        if (database.deleteTask(taskId)) {
+            emit taskDeleted(taskId);
+            close();
+        }
     }
 }
+

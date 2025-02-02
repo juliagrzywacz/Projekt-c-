@@ -134,6 +134,5 @@ void TaskAddWindow::saveTask() {
     }
 
     emit taskAdded(); // Zmiana: Emituje sygnał bez parametrów
-    QMessageBox::information(this, "Sukces", "Zadanie zostało dodane.");
     close();
 }
