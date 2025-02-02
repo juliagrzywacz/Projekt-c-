@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
     WeekView *weekView = new WeekView(database);
     mainWindow.setCentralWidget(weekView);
 
-    mainWindow.setWindowTitle("Kalendarz Tygodniowy");
+    mainWindow.setWindowTitle("Roomie");
     mainWindow.show();
 
     //Centrowanie okna głównego
