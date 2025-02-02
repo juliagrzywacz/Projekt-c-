@@ -2,6 +2,7 @@
 #include <QMainWindow>
 #include <QScreen>
 #include <QStyle>
+#include <QIcon>
 #include "WeekView.h"
 #include "database.h"
 
@@ -15,6 +16,10 @@ int main(int argc, char *argv[]) {
 
     // Tworzenie okna głównego
     QMainWindow mainWindow;
+
+    // Ustawienie ikony okna
+    mainWindow.setWindowIcon(QIcon(":/icons/calendar.png"));
+
 
     // Tworzenie widoku tygodniowego i ustawienie go jako centralny widget
     WeekView *weekView = new WeekView(database);

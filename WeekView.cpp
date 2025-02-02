@@ -325,7 +325,7 @@ void WeekView::displayTasksForWeek() {
                         cursor.clearSelection();
 
                         if (task.completed == 1) {
-                            cell->setStyleSheet("background-color: #f0f0f0;");
+                            cell->setStyleSheet("background: #B0B0B0; border: none;");
                         } else {
                             QString personColor = getColorForPerson(task.person);
                             cell->setStyleSheet(QString("background-color: %1; border: 1px %1;").arg(personColor));

@@ -210,7 +210,7 @@ build moc_TaskEditWindow.cpp | ${cmake_ninja_workdir}moc_TaskEditWindow.cpp: CUS
 #############################################
 # Custom command for qrc_resources.cpp
 
-build qrc_resources.cpp | ${cmake_ninja_workdir}qrc_resources.cpp: CUSTOM_COMMAND D$:/studia/semestr$ III/projekt$ c++/App/resources.qrc D$:/studia/semestr$ III/projekt$ c++/App/icons/add-circle-bold.png D$:/studia/semestr$ III/projekt$ c++/App/icons/add.png resources.qrc.depends C$:/Qt/6.7.1/mingw_64/./bin/rcc.exe
+build qrc_resources.cpp | ${cmake_ninja_workdir}qrc_resources.cpp: CUSTOM_COMMAND D$:/studia/semestr$ III/projekt$ c++/App/resources.qrc D$:/studia/semestr$ III/projekt$ c++/App/icons/add-circle-bold.png D$:/studia/semestr$ III/projekt$ c++/App/icons/add.png D$:/studia/semestr$ III/projekt$ c++/App/icons/calendar.png resources.qrc.depends C$:/Qt/6.7.1/mingw_64/./bin/rcc.exe
   COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D "D:\studia\semestr III\projekt c++\App\cmake-build-debug" && C:\Qt\6.7.1\mingw_64\.\bin\rcc.exe --no-zstd --name resources --output "D:/studia/semestr III/projekt c++/App/cmake-build-debug/qrc_resources.cpp" "D:/studia/semestr III/projekt c++/App/resources.qrc""
   DESC = Generating qrc_resources.cpp
   restat = 1
