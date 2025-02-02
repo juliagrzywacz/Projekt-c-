@@ -28,5 +28,5 @@ Po zakończeniu kompilacji plik wykonywalny znajdziesz w katalogu `build`. Może
    ```powershell
    build\App.exe
    ```
-## Autorzy
-Projekt stworzony przez Julię w ramach przedmiotu "Projekt C++".
+##
+Projekt stworzony przez Julię Grzywacz w ramach przedmiotu "Projekt C++".

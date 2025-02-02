@@ -1,12 +1,12 @@
 # ninja log v5
+30	4070	7602380471147060	build.ninja	8321531de67645a
 37	112	7596875481964579	D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_WeekView.cpp	1fe2df81f9237a7
-62	4334	7602290339006203	build.ninja	8321531de67645a
-134	4046	7602288098435818	CMakeFiles/App.dir/main.cpp.obj	f5a8a09143fe9dbd
+50	3870	7602299757070781	CMakeFiles/App.dir/main.cpp.obj	f5a8a09143fe9dbd
 6997	10729	7596873704829927	CMakeFiles/App.dir/moc_TaskEditWindow.cpp.obj	32a4f546d9ec3759
-4047	5671	7602288114659019	App.exe	30b6dc668faad4aa
-43	4831	7602271539646338	CMakeFiles/App.dir/WeekView.cpp.obj	fb02a9cc500bd432
+3425	4291	7602377697378623	App.exe	30b6dc668faad4aa
 132	448	7596868976982123	moc_TaskEditWindow.cpp	6adced9efdf77239
 12	28	0	clean	23841cd9e0f6f05a
+77	4917	7602328001792321	CMakeFiles/App.dir/WeekView.cpp.obj	fb02a9cc500bd432
 37	112	7596875481964579	moc_WeekView.cpp	1fe2df81f9237a7
 124	3947	7596875520209103	CMakeFiles/App.dir/moc_WeekView.cpp.obj	ee9fa12b048fc002
 60	175	7523820918381935	moc_DatabaseManager.cpp	e3a870109cb332d7
@@ -14,29 +14,24 @@
 147	6671	7596873664004392	CMakeFiles/App.dir/database.cpp.obj	e34819ee0f7c92be
 42	129	7596873598813978	moc_database.cpp	e1b503fab2a3926d
 42	129	7596873598813978	D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_database.cpp	e1b503fab2a3926d
+505	706	7602290347724621	CMakeFiles/App.dir/qrc_resources.cpp.obj	8a238db98838e685
 6673	6997	7596873667424899	CMakeFiles/App.dir/moc_database.cpp.obj	5fe6ff184c9e1c46
-7080	7394	7596823336244268	CMakeFiles/App.dir/qrc_resources.cpp.obj	8a238db98838e685
 62	135	7596873598874259	moc_TaskWindow.cpp	3dd46f5222cbd2e7
 62	135	7596873598874259	D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_TaskWindow.cpp	3dd46f5222cbd2e7
-132	448	7596868976982123	D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_TaskEditWindow.cpp	6adced9efdf77239
 6944	10664	7596873704162491	CMakeFiles/App.dir/moc_TaskWindow.cpp.obj	aa40883990fbbd02
-153	6944	7596873665897069	CMakeFiles/App.dir/TaskWindow.cpp.obj	d5ae1c09d8b3bf5e
+132	448	7596868976982123	D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_TaskEditWindow.cpp	6adced9efdf77239
+43	3424	7602377688720963	CMakeFiles/App.dir/TaskWindow.cpp.obj	d5ae1c09d8b3bf5e
 50	144	7548045903062030	moc_TaskItem.cpp	dfa072e38ae88564
 50	144	7548045903062030	D:/studia/semestr III/projekt c++/App/cmake-build-debug/moc_TaskItem.cpp	dfa072e38ae88564
-160	7531	7596873672640041	CMakeFiles/App.dir/TaskEditWindow.cpp.obj	4a227e735e9c5b73
-126	356	7596823265804425	qrc_resources.cpp	d264431c2fd06bf0
-126	356	7596823265804425	D:/studia/semestr III/projekt c++/App/cmake-build-debug/qrc_resources.cpp	d264431c2fd06bf0
-30	4070	7602290339006203	build.ninja	8321531de67645a
+33	2785	7602317240736958	CMakeFiles/App.dir/TaskEditWindow.cpp.obj	4a227e735e9c5b73
 59	504	7602290345681097	qrc_resources.cpp	d264431c2fd06bf0
 59	504	7602290345681097	D:/studia/semestr III/projekt c++/App/cmake-build-debug/qrc_resources.cpp	d264431c2fd06bf0
-505	706	7602290347724621	CMakeFiles/App.dir/qrc_resources.cpp.obj	8a238db98838e685
-706	1407	7602290354631965	App.exe	30b6dc668faad4aa
-64	3445	7602299752753767	CMakeFiles/App.dir/TaskWindow.cpp.obj	d5ae1c09d8b3bf5e
-50	3870	7602299757070781	CMakeFiles/App.dir/main.cpp.obj	f5a8a09143fe9dbd
-3870	4735	7602299765575455	App.exe	30b6dc668faad4aa
-42	2837	7602303139174933	CMakeFiles/App.dir/TaskEditWindow.cpp.obj	4a227e735e9c5b73
-2838	3563	7602303146351644	App.exe	30b6dc668faad4aa
-46	3090	7602304656683839	CMakeFiles/App.dir/TaskEditWindow.cpp.obj	4a227e735e9c5b73
-3091	3925	7602304665007048	App.exe	30b6dc668faad4aa
-39	2852	7602305003039503	CMakeFiles/App.dir/TaskEditWindow.cpp.obj	4a227e735e9c5b73
-2854	3590	7602305010382759	App.exe	30b6dc668faad4aa
+19	1654	7602380471147060	build.ninja	8321531de67645a
+50	251	7602380475568166	qrc_resources.cpp	d264431c2fd06bf0
+50	251	7602380475568166	D:/studia/semestr III/projekt c++/App/cmake-build-debug/qrc_resources.cpp	d264431c2fd06bf0
+269	413	7602380477273530	CMakeFiles/App.dir/qrc_resources.cpp.obj	8a238db98838e685
+252	4807	7602380521119383	CMakeFiles/App.dir/WeekView.cpp.obj	fb02a9cc500bd432
+4807	5597	7602380529015564	App.exe	30b6dc668faad4aa
+62	3793	7602385835093981	CMakeFiles/App.dir/TaskWindow.cpp.obj	d5ae1c09d8b3bf5e
+44	5081	7602385847957850	CMakeFiles/App.dir/WeekView.cpp.obj	fb02a9cc500bd432
+5081	6187	7602385858941699	App.exe	30b6dc668faad4aa

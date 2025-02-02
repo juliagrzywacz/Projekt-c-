@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>icons/add-circle-bold.png</file>
-        <file>icons/add.png</file>
         <file>icons/calendar.png</file>
     </qresource>
 </RCC>

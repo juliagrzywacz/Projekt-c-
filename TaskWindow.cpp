@@ -7,7 +7,7 @@ TaskAddWindow::TaskAddWindow(Database& database, QWidget *parent)
 
     setAutoFillBackground(true);
     QPalette palette = this->palette();
-    palette.setColor(QPalette::Window, QColor("#D3D3D3")); // Jasnoszare tło
+    palette.setColor(QPalette::Window, QColor("#D3D3D3"));
     setPalette(palette);
 
     QVBoxLayout *layout = new QVBoxLayout(this);
@@ -15,8 +15,8 @@ TaskAddWindow::TaskAddWindow(Database& database, QWidget *parent)
 
     // Style
     QString inputStyle = "QLineEdit, QDateEdit, QTimeEdit {"
-                         "background-color: lightblue;" // Lightblue tło
-                         "border: 1px solid lightblue;" // Lightblue border
+                         "background-color: lightblue;"
+                         "border: 1px solid lightblue;"
                          "border-radius: 5px;"
                          "padding: 2px;"
                          "font-size: 14px;"
@@ -26,7 +26,7 @@ TaskAddWindow::TaskAddWindow(Database& database, QWidget *parent)
                          "}";
 
     QString buttonStyle = "QPushButton {"
-                          "background-color: lightblue;" // Lightblue
+                          "background-color: lightblue;"
                           "border: none;"
                           "border-radius: 5px;"
                           "padding: 4px 15px;"
@@ -71,6 +71,7 @@ TaskAddWindow::TaskAddWindow(Database& database, QWidget *parent)
     taskTimeEdit = new QTimeEdit(this);
     taskTimeEdit->setDisplayFormat("HH:mm");
     taskTimeEdit->setStyleSheet(inputStyle);
+    taskTimeEdit->setTime(QTime(0, 15));
 
     layout->addWidget(createLabel("Osoba odpowiedzialna:"));
     layout->addWidget(taskPersonEdit);
@@ -99,6 +100,16 @@ TaskAddWindow::TaskAddWindow(Database& database, QWidget *parent)
 
     layout->addLayout(buttonLayout);
     setLayout(layout);
+
+
+    // Ustawienie okna na środku ekranu
+    QScreen *screen = QGuiApplication::primaryScreen();
+    if (parent) {
+        QRect parentGeometry = parent->geometry();
+        int x = parentGeometry.left() + (parentGeometry.width() - width()) / 2;
+        int y = parentGeometry.top() + (parentGeometry.height() - height()) / 2;
+        move(x, y);
+    }
 }
 
 
@@ -133,6 +144,6 @@ void TaskAddWindow::saveTask() {
         return;
     }
 
-    emit taskAdded(); // Zmiana: Emituje sygnał bez parametrów
+    emit taskAdded();
     close();
 }

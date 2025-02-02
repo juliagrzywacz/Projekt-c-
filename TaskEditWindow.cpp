@@ -18,7 +18,7 @@ TaskEditWindow::TaskEditWindow(Database& db, int taskId, QWidget *parent)
                          "background-color: lightblue;"
                          "border: 1px solid lightblue;"
                          "border-radius: 5px;"
-                         "padding: 2px;"
+                         "padding: 0;"
                          "font-size: 14px;"
                          "}"
                          "QLineEdit:focus, QDateEdit:focus, QTimeEdit:focus {"
@@ -29,7 +29,7 @@ TaskEditWindow::TaskEditWindow(Database& db, int taskId, QWidget *parent)
                           "background-color: lightblue;"
                           "border: none;"
                           "border-radius: 5px;"
-                          "padding: 4px 15px;"
+                          "padding: 0px 15px;"
                           "font-size: 14px;"
                           "font-weight: bold;"
                           "color: DarkSlateGrey;"
@@ -108,6 +108,15 @@ TaskEditWindow::TaskEditWindow(Database& db, int taskId, QWidget *parent)
     setLayout(layout);
 
     setTaskDetails(taskId);
+
+    // Ustawienie okna na środku ekranu
+    QScreen *screen = QGuiApplication::primaryScreen();
+    if (parent) {
+        QRect parentGeometry = parent->geometry();
+        int x = parentGeometry.left() + (parentGeometry.width() - width()) / 2;
+        int y = parentGeometry.top() + (parentGeometry.height() - height()) / 2;
+        move(x, y);
+    }
 }
 
 void TaskEditWindow::setTaskDetails(int taskId) {

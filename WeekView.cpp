@@ -3,8 +3,8 @@
 
 WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWindow(nullptr), database(db) {
     pastelColors = {
-            "#FFB3BA", "#FFDFBA", "#FFFFBA", "#BAFFC9", "#BAE1FF",
-            "#D7BAFF", "#FFC4E1", "#C4FFF9", "#E2FFBA", "#FFE4BA"
+            "#FF6F61", "#FF9F80", "#FFEC73", "#66FF66", "#FF8C00",
+            "#FF46B1", "#FDE74C", "#FF385C", "#FF6347", "#FFD700"
     };
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     mainLayout->setSpacing(0);
@@ -72,7 +72,7 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
 
     days = {"Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela"};
 
-    // tworzenie nagłówków dni
+    // Tworzenie nagłówków dni
     for (int i = 0; i < 7; ++i) {
         dayLabels[i] = new QLabel(this);
         dayLabels[i]->setAlignment(Qt::AlignCenter | Qt::AlignTop);
@@ -88,7 +88,7 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
 
     QStringList hours;
     for (int hour = 6; hour < 22; ++hour) {
-        for (int minute = 0; minute < 60; minute += 15) { // Zmiana na += 30
+        for (int minute = 0; minute < 60; minute += 15) {
             hours.append(QString("%1:%2").arg(hour, 2, 10, QChar('0')).arg(minute, 2, 10, QChar('0')));
         }
     }
@@ -96,7 +96,7 @@ WeekView::WeekView(Database &db, QWidget *parent) : QWidget(parent), taskAddWind
     // Nagłówki godzin
     for (int row = 0; row < hours.size(); ++row) {
         QLabel *timeLabel = new QLabel(this);
-        timeLabel->setAlignment(Qt::AlignRight); // Wyrównanie do prawej
+        timeLabel->setAlignment(Qt::AlignRight);
 
         if (row % 2 == 0) {
             timeLabel->setText(hours[row]);
@@ -255,7 +255,6 @@ void WeekView::updateCalendar() {
 void WeekView::showTaskAddWindow(const QDate &date, const QTime &time) {
     if (!taskAddWindow) {
         taskAddWindow = new TaskAddWindow(database, this);
-        taskAddWindow->move(this->geometry().center() - taskAddWindow->rect().center());
 
         connect(taskAddWindow, &TaskAddWindow::destroyed, this, [this](){
             this->taskAddWindow = nullptr;
